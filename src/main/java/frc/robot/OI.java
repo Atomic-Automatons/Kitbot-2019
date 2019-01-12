@@ -14,22 +14,16 @@ public class OI {
   static int joystickPort = 0;
   public static int joystickSensitivityAxis = 3;
   public static Joystick stick = new Joystick(joystickPort);
-  // static int controllerPort = 0;
-  // public static XboxController controller = new XboxController(controllerPort);
-  /*
-   * public static int getType(){ return
-   * (DriverStation.getInstance().getJoystickType(0)); }
-   */
 
   public static Button up = new JoystickButton(stick, 5);
   public static Button down = new JoystickButton(stick, 6);
   public static Button inhale = new JoystickButton(stick, 9);
   public static Button exhale = new JoystickButton(stick, 7);
   static {
-    //up.whenPressed(new ShiftUp());
-   // down.whenPressed(new ShiftDown());
-    //inhale.whileHeld(new Inhale());
-    //exhale.whileHeld(new Exhale());
+     //up.whenPressed(new ShiftUp());
+    // down.whenPressed(new ShiftDown());
+    inhale.whileHeld(new Inhale());
+    exhale.whileHeld(new Exhale());
   }
   // There are a few additional built in buttons you can use. Additionally,
   // by subclassing Button you can create custom triggers and bind those to

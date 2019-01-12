@@ -11,8 +11,9 @@ import frc.robot.RobotMap;
 public class DriveSystem extends Subsystem {
 
   static private DriveSystem instance = null;
-  static public DriveSystem getInstance(){
-    if(instance == null){
+
+  static public DriveSystem getInstance() {
+    if (instance == null) {
       instance = new DriveSystem();
     }
     return instance;
@@ -20,7 +21,7 @@ public class DriveSystem extends Subsystem {
 
   private DifferentialDrive drive;
 
-  public DriveSystem(){
+  public DriveSystem() {
     PWMVictorSPX backLeft = new PWMVictorSPX(RobotMap.backLeftMotor);
     PWMVictorSPX frontLeft = new PWMVictorSPX(RobotMap.frontLeftMotor);
     PWMVictorSPX backRight = new PWMVictorSPX(RobotMap.backRightMotor);
@@ -28,26 +29,27 @@ public class DriveSystem extends Subsystem {
 
     SpeedController right = new SpeedControllerGroup(backRight, frontRight);
     SpeedController left = new SpeedControllerGroup(backLeft, frontLeft);
-    
-    //left.setInverted(true);
-    //right.setInverted(true);
-	
+
+    // left.setInverted(true);
+    // right.setInverted(true);
+
     drive = new DifferentialDrive(left, right);
   }
 
-  public void arcadeDrive(double x, double y){
+  public void arcadeDrive(double x, double y) {
     drive.arcadeDrive(x, y);
   }
-  
-  public void startAuto(){
-	drive.setSafetyEnabled(false);
+
+  public void startAuto() {
+    drive.setSafetyEnabled(false);
   }
 
-  public void stop(){
+  public void stop() {
     drive.arcadeDrive(0, 0);
-	drive.setSafetyEnabled(false);
+    drive.setSafetyEnabled(false);
   }
 
   @Override
-  public void initDefaultCommand() {}
+  public void initDefaultCommand() {
+  }
 }

@@ -13,14 +13,14 @@ public class JoystickDrive extends Command {
 
   @Override
   protected void initialize() {
-	  //Encoders.getInstance().reset();
+    // Encoders.getInstance().reset();
   }
 
   @Override
   protected void execute() {
-      double sensitivity = (1 - OI.stick.getRawAxis(OI.joystickSensitivityAxis));
-	  //Joystick going forward is negative
-      DriveSystem.getInstance().arcadeDrive(-1 * sensitivity * OI.stick.getY(), sensitivity * OI.stick.getX());
+    double sensitivity = (1 - OI.stick.getRawAxis(OI.joystickSensitivityAxis));
+    // Joystick going forward is negative
+    DriveSystem.getInstance().arcadeDrive(-1 * sensitivity * OI.stick.getY(), sensitivity * OI.stick.getX());
   }
 
   @Override
@@ -33,5 +33,6 @@ public class JoystickDrive extends Command {
   }
 
   @Override
-  protected void interrupted() {}
+  protected void interrupted() {
+  }
 }
