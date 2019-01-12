@@ -19,11 +19,13 @@ public class OI {
   public static Button down = new JoystickButton(stick, 6);
   public static Button inhale = new JoystickButton(stick, 9);
   public static Button exhale = new JoystickButton(stick, 7);
+  public static Button followLine = new JoystickButton(stick, 11);
   static {
      //up.whenPressed(new ShiftUp());
     // down.whenPressed(new ShiftDown());
     inhale.whileHeld(new Inhale());
     exhale.whileHeld(new Exhale());
+    followLine.whenPressed(new FollowLine());
   }
   // There are a few additional built in buttons you can use. Additionally,
   // by subclassing Button you can create custom triggers and bind those to

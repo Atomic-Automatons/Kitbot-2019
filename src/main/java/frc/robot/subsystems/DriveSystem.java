@@ -35,7 +35,9 @@ public class DriveSystem extends Subsystem {
 
     drive = new DifferentialDrive(left, right);
   }
-
+  /**
+   * speed and rotation
+   */
   public void arcadeDrive(double x, double y) {
     drive.arcadeDrive(x, y);
   }
