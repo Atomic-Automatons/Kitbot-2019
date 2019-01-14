@@ -11,7 +11,7 @@ import frc.robot.subsystems.ExampleSubsystem;
 public class Robot extends TimedRobot {
   public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
   public static OI m_oi;
-
+  Command m_dashboardCommand = new UpdateSmartDashboard();
   Command m_autonomousCommand;
   Command m_teleopCommand = new JoystickDrive();
 
@@ -23,8 +23,7 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
-
-
+	m_dashboardCommand.start();
   }
 
   /**
@@ -101,6 +100,7 @@ public class Robot extends TimedRobot {
     if (m_teleopCommand != null) {
       m_teleopCommand.start();
     }
+	
   }
 
   @Override

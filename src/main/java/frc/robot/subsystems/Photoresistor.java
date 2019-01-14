@@ -35,8 +35,10 @@ public class Photoresistor extends Subsystem {
 
     public AnalogInput[] getAnalogInputs(){
         return arrayPhotoresistors;
-    }
-
+    } 
+	public int[] getVals(){
+		return new int[] {arrayPhotoresistors[0].getValue(), arrayPhotoresistors[1].getValue(), arrayPhotoresistors[2].getValue()};
+	}
     private Photoresistor() {
     }
 
