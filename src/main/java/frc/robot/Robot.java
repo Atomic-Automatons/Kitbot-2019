@@ -12,7 +12,7 @@ public class Robot extends TimedRobot {
   public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
   public static OI m_oi;
   Command m_dashboardCommand = new UpdateSmartDashboard();
-  Command m_autonomousCommand;
+  Command m_autonomousCommand = new CameraTurn();
   Command m_teleopCommand = new JoystickDrive();
 
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -21,7 +21,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_oi = new OI();
     m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
-    // chooser.addOption("My Auto", new MyAutoCommand());
+    m_chooser.addOption("My Auto", new CameraTurn());
     SmartDashboard.putData("Auto mode", m_chooser);
 	m_dashboardCommand.start();
   }
@@ -100,8 +100,8 @@ public class Robot extends TimedRobot {
     if (m_teleopCommand != null) {
       m_teleopCommand.start();
     }
-	
-  }
+    m_dashboardCommand.start();
+	  }
 
   @Override
   public void teleopPeriodic() {
