@@ -24,7 +24,7 @@ public class UpdateSmartDashboard extends Command{
 		SmartDashboard.putNumber("PR left", Photoresistor.getInstance().getVals()[0]);
 		SmartDashboard.putNumber("PR middle", Photoresistor.getInstance().getVals()[1]);
         SmartDashboard.putNumber("PR right", Photoresistor.getInstance().getVals()[2]);
-        SmartDashboard.putString("Camera turn", Camera.getInstance().center(Camera.getInstance().process()));
+      //  SmartDashboard.putString("Camera turn", Camera.getInstance().center(Camera.getInstance().process()));
     }
 
     @Override

@@ -23,7 +23,11 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     m_chooser.addOption("My Auto", new CameraTurn());
     SmartDashboard.putData("Auto mode", m_chooser);
-	m_dashboardCommand.start();
+  m_dashboardCommand.start();
+  
+
+
+  
   }
 
   /**

@@ -22,9 +22,18 @@ public class CameraTurn extends Command {
     protected void initialize() {
     }
 
+    int timer = 0;
+
     @Override
     protected void execute() {
-    SmartDashboard.putString("Camera turn", Camera.getInstance().center(Camera.getInstance().process()));
+        Camera.getInstance().process();/*
+        if (timer == 0) {
+            Camera.getInstance().process();
+            //SmartDashboard.putString("Camera turn", Camera.getInstance().center(Camera.getInstance().process()));
+            timer = 100;
+        } else {
+            timer -= 1;
+        }*/
     }
 
     @Override
