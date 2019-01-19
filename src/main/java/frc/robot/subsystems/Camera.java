@@ -3,11 +3,9 @@ package frc.robot.subsystems;
 import java.util.ArrayList;
 
 import org.opencv.core.Core;
-import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfInt;
 import org.opencv.core.MatOfPoint;
-import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
@@ -21,45 +19,67 @@ import edu.wpi.cscore.VideoMode;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import edu.wpi.first.wpilibj.networktables.*;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Camera extends Subsystem {
-	static int resWidth = 320;
-	static int resHeight = 240;
-	static UsbCamera camera;
-	static private Camera instance = null;
-	static CvSink imageSink = new CvSink("CV Image Grabber");
-	static CvSource imageSource = new CvSource("CV Image Source", VideoMode.PixelFormat.kMJPEG, resWidth, resHeight,
-			15);
-	static CvSource imageSourceb = new CvSource("CV Image Source blue", VideoMode.PixelFormat.kMJPEG, resWidth, resHeight, 15);
-	static  MjpegServer cvStreamb = new MjpegServer("CV Image Stream blue", 1186);
-	//static MjpegServer cvStream = new MjpegServer("CV Image Stream", 1186);
+	private static Camera instance = null;
+
 	/**
 	 * This getInstance makes it so there can only be one Camera at a time. This is
 	 * done for multiple reasons, but i'll just say it's to keep processing power
 	 * down i guess.
 	 */
-	static public Camera getInstance() {
+	public static Camera getInstance() {
 		if (instance == null) {
 			instance = new Camera();
 		}
 		return instance;
 	}// end method getInstance()
 
+	private static UsbCamera camera;
+	private static Thread t;
+	private static MjpegServer imageServer = new MjpegServer("Tape Detection Server", 1186);
+
+	private final static int RESOLUTION_WIDTH = 160;
+	private final static int RESOLUTION_HEIGHT = 120;
+	private final static int FRAMERATE = 10;
+
+	static CvSink imageSink = new CvSink("CV Image Grabber");
+	static CvSource imageSource = new CvSource("CV Image Source", VideoMode.PixelFormat.kMJPEG, RESOLUTION_WIDTH,
+			RESOLUTION_HEIGHT, 10);
+	static CvSource imageSourceb = new CvSource("CV Image Source blue", VideoMode.PixelFormat.kMJPEG, RESOLUTION_WIDTH,
+			RESOLUTION_HEIGHT, 15);
+
 	/**
 	 * This basically makes a camera and should only run once(first time you
 	 * getInstance())
 	 */
 	private Camera() {
-
 		camera = new UsbCamera("Camera", 0);
-		camera.setResolution(resWidth, resHeight);
+		camera.setResolution(RESOLUTION_WIDTH, RESOLUTION_HEIGHT);
+		camera.setFPS(FRAMERATE); // 5 7 30
 		imageSink.setSource(camera);
 
-		cvStreamb.setSource(imageSourceb);
-		//cvStreamb.setSource(camera);
-		NetworkTable.getTable("CameraPublisher").getSubTable("OpenCV Blue").putStringArray("streams", new String[]{"mjpeg:http://" + "10.66.44.41" + ":" + 1186 + "/stream.mjpg"});
-	
+		imageServer.setSource(imageSourceb);
+		// cvStreamb.setSource(camera);
+		NetworkTable.getTable("CameraPublisher").getSubTable("Yellow").putStringArray("streams",
+				new String[] { "mjpeg:http://" + "10.66.44.2" + ":" + 1186 + "/stream.mjpg" });
+
 		// cvStream.setSource(imageSource);
+	}
+
+	public void startThread() {
+		t = new Thread(() -> {
+			while (!Thread.interrupted()) {
+				process();
+			}
+		});
+
+		t.start();
+	}
+
+	public void stopThread() {
+		t.interrupt();
 	}
 
 	@Override
@@ -70,8 +90,8 @@ public class Camera extends Subsystem {
 	Mat output_image = new Mat();
 	Mat empty = new Mat();
 	Point emptyPoint = new Point(-1, -1);
-	ArrayList<MatOfPoint> contours = new ArrayList<>();
-	
+	public ArrayList<MatOfPoint> contours = new ArrayList<>();
+
 	ArrayList<MatOfPoint> contoursFinal = new ArrayList<>();
 	int mode = Imgproc.RETR_LIST;
 	int method = Imgproc.CHAIN_APPROX_SIMPLE;
@@ -92,67 +112,85 @@ public class Camera extends Subsystem {
 	double filterContoursMinRatio = 0;
 	double filterContoursMaxRatio = 1000;
 	final MatOfInt hull = new MatOfInt();
-	double maxFinalArea1=0;
-	double maxFinalArea2=0;
+
+	double maxFinalArea1 = 0;
+	double maxFinalArea2 = 0;
 	double mid1 = 0;
 	double mid2 = 0;
+	int index1 = 0;
+	int index2 = 0;
+	Rect bb = new Rect();
+	Rect bb1 = new Rect();
+
+	// Scalar colors = new Scalar(0, 255, 255);
+
 	public void process() {
 		if (imageSink.grabFrame(input_image) != 0) {
 			// HSV
-			
 			Imgproc.cvtColor(input_image, output_image, Imgproc.COLOR_BGR2HSV);
 			Core.inRange(output_image, scalar1, scalar2, output_image);
-			
 
 			// Contour
 			contours.clear();
 			Imgproc.findContours(output_image, contours, empty, mode, method);
 			imageSourceb.putFrame(output_image);
+			// Imgproc.drawContours(output_image, contours, -1, colors);
 			// Filter Contours
+
+			index1 = 0;
+			index2 = 0;
 			maxFinalArea1 = 0;
 			maxFinalArea2 = 0;
-			for(int i = 0; i<contours.size(); i++){
+
+			for (int i = 0; i < contours.size(); i++) {
 				final MatOfPoint contour = contours.get(i);
 				final double area = Imgproc.contourArea(contour);
-				if(area > 20 && Imgproc.arcLength(new MatOfPoint2f(contour.toArray()), true) < filterContoursMinPerimeter){
-					final Rect bb = Imgproc.boundingRect(contour);
+				if (area > filterContoursMinArea) { // && Imgproc.arcLength(new MatOfPoint2f(contour.toArray()), true) <
+													// filterContoursMinPerimeter
+					if (area > maxFinalArea1) {
+						index2 = index1;
+						index1 = i;
+						maxFinalArea2 = maxFinalArea1;
+						maxFinalArea1 = area;
+					} else if (area > maxFinalArea2) {
+						index2 = i;
+						maxFinalArea2 = area;
+					}
 				}
 			}
-			for(int i = 0 ; i < contoursFinal.size(); i++){
-				
-				
+
+			if (contours.size() > 0) {
+				bb = Imgproc.boundingRect(contours.get(index1));
+				bb1 = Imgproc.boundingRect(contours.get(index2));
 			}
-			/*for (int i = 0; i < contours.size(); i++) {
-				final MatOfPoint contour = contours.get(i);
-				final Rect bb = Imgproc.boundingRect(contour);
-				if (bb.width < filterContoursMinWidth || bb.width > filterContoursMaxWidth)
-					continue;
-				if (bb.height < filterContoursMinHeight || bb.height > filterContoursMaxHeight)
-					continue;
-				final double area = Imgproc.contourArea(contour);
-				if (area < filterContoursMinArea)
-					continue;
-				if (Imgproc.arcLength(new MatOfPoint2f(contour.toArray()), true) < filterContoursMinPerimeter)
-					continue;
-				Imgproc.convexHull(contour, hull);
-				MatOfPoint mopHull = new MatOfPoint();
-				mopHull.create((int) hull.size().height, 1, CvType.CV_32SC2);
-				for (int j = 0; j < hull.size().height; j++) {
-					int index = (int) hull.get(j, 0)[0];
-					double[] point = new double[] { contour.get(index, 0)[0], contour.get(index, 0)[1] };
-					mopHull.put(j, 0, point);
-				}
-				final double solid = 100 * area / Imgproc.contourArea(mopHull);
-				if (solid < filterContoursSolidity[0] || solid > filterContoursSolidity[1])
-					continue;
-				if (contour.rows() < filterContoursMinVertices || contour.rows() > filterContoursMaxVertices)
-					continue;
-				final double ratio = bb.width / (double) bb.height;
-				if (ratio < filterContoursMinRatio || ratio > filterContoursMaxRatio)
-					continue;
-				contours.add(contour);
-			}*/
 		}
 	}
 
+	public int getContourNum() {
+		return contours.size();
+	}
+
+	public double getMaxArea1() {
+		return maxFinalArea1;
+	}
+
+	public double getMaxArea2() {
+		return maxFinalArea2;
+	}
+
+	public double getCenterbb1() {
+		return bb.x + bb.width / 2;
+	}
+
+	public double getCenterbb2() {
+		return bb1.x + bb1.width / 2;
+	}
+
+	public double getCenterRaw() {
+		return ((bb1.x + bb1.width / 2) + (bb.x + bb.width / 2)) / 2;
+	}
+
+	public double getCenter() {
+		return (getCenterRaw() / RESOLUTION_WIDTH) - 0.5;
+	}
 }

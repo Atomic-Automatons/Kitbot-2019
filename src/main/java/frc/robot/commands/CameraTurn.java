@@ -20,23 +20,60 @@ public class CameraTurn extends Command {
     // Called once when the command executes
     @Override
     protected void initialize() {
+        DriveSystem.getInstance().startAuto();
+        Camera.getInstance().startThread();
     }
 
     int timer = 0;
 
     @Override
     protected void execute() {
-        Camera.getInstance().process();/*
-        if (timer == 0) {
-            Camera.getInstance().process();
-            //SmartDashboard.putString("Camera turn", Camera.getInstance().center(Camera.getInstance().process()));
-            timer = 100;
+        /*
+         * if (timer == 0) {
+         * 
+         * timer = 100; }
+         * 
+         * timer--;
+         */
+
+        // Camera.getInstance().process();
+
+        // SmartDashboard.putNumber("Contour Number",
+        // Camera.getInstance().getContourNum());
+        // SmartDashboard.putNumber("maxFinal1", Camera.getInstance().getMaxArea1());
+        // SmartDashboard.putNumber("maxFinal2", Camera.getInstance().getMaxArea2());
+        // SmartDashboard.putNumber("Bounding Box 1 middle",
+        // Camera.getInstance().getCenterbb1());
+        // SmartDashboard.putNumber("Bounding Box 2 middle",
+        // Camera.getInstance().getCenterbb2());
+        // SmartDashboard.putNumber("Center Raw", Camera.getInstance().getCenterRaw());
+        double center = Camera.getInstance().getCenter();
+        SmartDashboard.putNumber("Center", center);
+
+        if (Math.abs(center) > 0.07) {
+            double val = clamp(center);
+            DriveSystem.getInstance().arcadeDrive(0, val);
         } else {
-            timer -= 1;
-        }*/
+            DriveSystem.getInstance().arcadeDrive(0, 0);
+        }
+    }
+
+    double upper = 0.5;
+    double lower = 0.4;
+
+    protected double clamp(double val) {
+        if (Math.abs(val) > upper) {
+            return upper * Math.signum(val);
+        } else if (Math.abs(val) < lower) {
+            return lower * Math.signum(val);
+        }
+
+        return val;
     }
 
     @Override
     protected void end() {
+        DriveSystem.getInstance().stop();
+        Camera.getInstance().stopThread();
     }
 }

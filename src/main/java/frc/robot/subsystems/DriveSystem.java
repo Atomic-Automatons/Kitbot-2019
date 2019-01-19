@@ -34,7 +34,9 @@ public class DriveSystem extends Subsystem {
     // right.setInverted(true);
 
     drive = new DifferentialDrive(left, right);
+    drive.setSafetyEnabled(false);
   }
+
   /**
    * speed and rotation
    */
@@ -48,7 +50,7 @@ public class DriveSystem extends Subsystem {
 
   public void stop() {
     drive.arcadeDrive(0, 0);
-    drive.setSafetyEnabled(false);
+    drive.setSafetyEnabled(true);
   }
 
   @Override
