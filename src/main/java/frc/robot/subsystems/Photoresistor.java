@@ -1,12 +1,10 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Photoresistor extends Subsystem {
-
     private static Photoresistor instance;
-    private static AnalogInput[] arrayPhotoresistors = { new AnalogInput(1), new AnalogInput(2), new AnalogInput(3) };
 
     /**
      * getInstance command for Photoresistors. It returns the instance of
@@ -21,28 +19,35 @@ public class Photoresistor extends Subsystem {
         return instance;
     }
 
-    public int getLeft() {
-        return arrayPhotoresistors[0].getValue();
-    }
+    private DigitalInput[] arrayPhotoresistors = { new DigitalInput(1), new DigitalInput(2), new DigitalInput(3) };
 
-    public int getMiddle() {
-        return arrayPhotoresistors[1].getValue();
-    }
-
-    public int getRight() {
-        return arrayPhotoresistors[2].getValue();
-    }
-
-    public AnalogInput[] getAnalogInputs(){
-        return arrayPhotoresistors;
-    } 
-	public int[] getVals(){
-		return new int[] {arrayPhotoresistors[0].getValue(), arrayPhotoresistors[1].getValue(), arrayPhotoresistors[2].getValue()};
-	}
     private Photoresistor() {
+
+    }
+
+    public boolean getLeft() {
+        return !arrayPhotoresistors[0].get();
+    }
+
+    public boolean getMiddle() {
+        return !arrayPhotoresistors[1].get();
+    }
+
+    public boolean getRight() {
+        return arrayPhotoresistors[2].get();
+    }
+
+    public DigitalInput[] getDigitalInputs() {
+        return arrayPhotoresistors;
+    }
+
+    public boolean[] getVals() {
+        return new boolean[] { !arrayPhotoresistors[0].get(), !arrayPhotoresistors[1].get(),
+                !arrayPhotoresistors[2].get() };
     }
 
     @Override
-    public void initDefaultCommand() {
+    protected void initDefaultCommand() {
+
     }
 }

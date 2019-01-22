@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.*;
+import frc.robot.subsystems.Gyro;
 import frc.robot.subsystems.ExampleSubsystem;
 
 public class Robot extends TimedRobot {
@@ -20,14 +21,16 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_oi = new OI();
+
+    System.out.println("Gyro Connected: " + Gyro.getInstance().isConnected());
+
     m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
-    m_chooser.addOption("My Auto", new CameraTurn());
+    m_chooser.addOption("Camera Turn", new CameraTurn());
+    m_chooser.addOption("Turn 90", new Turn(90));
+    m_chooser.addOption("Follow Line", new FollowLine());
     SmartDashboard.putData("Auto mode", m_chooser);
+
     m_dashboardCommand.start();
-  
-
-
-  
   }
 
   /**
@@ -84,6 +87,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.start();
     }
+    m_dashboardCommand.start();
   }
 
   @Override
@@ -105,7 +109,7 @@ public class Robot extends TimedRobot {
       m_teleopCommand.start();
     }
     m_dashboardCommand.start();
-	  }
+  }
 
   @Override
   public void teleopPeriodic() {

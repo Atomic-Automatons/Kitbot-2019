@@ -13,13 +13,10 @@ import org.opencv.imgproc.Imgproc;
 
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
-import edu.wpi.cscore.MjpegServer;
 import edu.wpi.cscore.UsbCamera;
-import edu.wpi.cscore.VideoMode;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
-import edu.wpi.first.wpilibj.networktables.*;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.cameraserver.CameraServer;
 
 public class Camera extends Subsystem {
 	private static Camera instance = null;
@@ -36,19 +33,16 @@ public class Camera extends Subsystem {
 		return instance;
 	}// end method getInstance()
 
-	private static UsbCamera camera;
-	private static Thread t;
-	private static MjpegServer imageServer = new MjpegServer("Tape Detection Server", 1186);
-
 	private final static int RESOLUTION_WIDTH = 160;
 	private final static int RESOLUTION_HEIGHT = 120;
-	private final static int FRAMERATE = 10;
+	private final static int FRAMERATE = 30; // 5 7 30
 
-	static CvSink imageSink = new CvSink("CV Image Grabber");
-	static CvSource imageSource = new CvSource("CV Image Source", VideoMode.PixelFormat.kMJPEG, RESOLUTION_WIDTH,
-			RESOLUTION_HEIGHT, 10);
-	static CvSource imageSourceb = new CvSource("CV Image Source blue", VideoMode.PixelFormat.kMJPEG, RESOLUTION_WIDTH,
-			RESOLUTION_HEIGHT, 15);
+	private static UsbCamera camera;
+	private static Thread t;
+	private static CvSource imageSource = CameraServer.getInstance().putVideo("The Seeker of Truth", RESOLUTION_WIDTH, RESOLUTION_HEIGHT);
+	private static CvSink imageSink = new CvSink("Follow Sink");
+
+	private static double contourMinArea = 500.0;
 
 	/**
 	 * This basically makes a camera and should only run once(first time you
@@ -57,15 +51,8 @@ public class Camera extends Subsystem {
 	private Camera() {
 		camera = new UsbCamera("Camera", 0);
 		camera.setResolution(RESOLUTION_WIDTH, RESOLUTION_HEIGHT);
-		camera.setFPS(FRAMERATE); // 5 7 30
+		camera.setFPS(FRAMERATE);
 		imageSink.setSource(camera);
-
-		imageServer.setSource(imageSourceb);
-		// cvStreamb.setSource(camera);
-		NetworkTable.getTable("CameraPublisher").getSubTable("Yellow").putStringArray("streams",
-				new String[] { "mjpeg:http://" + "10.66.44.2" + ":" + 1186 + "/stream.mjpg" });
-
-		// cvStream.setSource(imageSource);
 	}
 
 	public void startThread() {
@@ -90,7 +77,7 @@ public class Camera extends Subsystem {
 	Mat output_image = new Mat();
 	Mat empty = new Mat();
 	Point emptyPoint = new Point(-1, -1);
-	public ArrayList<MatOfPoint> contours = new ArrayList<>();
+	private ArrayList<MatOfPoint> contours = new ArrayList<>();
 
 	ArrayList<MatOfPoint> contoursFinal = new ArrayList<>();
 	int mode = Imgproc.RETR_LIST;
@@ -100,7 +87,6 @@ public class Camera extends Subsystem {
 	double[] val = { 82.55395683453237, 255.0 };
 	Scalar scalar1 = new Scalar(hue[0], sat[0], val[0]);
 	Scalar scalar2 = new Scalar(hue[1], sat[1], val[1]);
-	double filterContoursMinArea = 20.0;
 	double filterContoursMinPerimeter = 53.0;
 	double filterContoursMinWidth = 0;
 	double filterContoursMaxWidth = 1000;
@@ -121,8 +107,7 @@ public class Camera extends Subsystem {
 	int index2 = 0;
 	Rect bb = new Rect();
 	Rect bb1 = new Rect();
-
-	// Scalar colors = new Scalar(0, 255, 255);
+	int valid = 0;
 
 	public void process() {
 		if (imageSink.grabFrame(input_image) != 0) {
@@ -133,19 +118,21 @@ public class Camera extends Subsystem {
 			// Contour
 			contours.clear();
 			Imgproc.findContours(output_image, contours, empty, mode, method);
-			imageSourceb.putFrame(output_image);
+			imageSource.putFrame(output_image);
 			// Imgproc.drawContours(output_image, contours, -1, colors);
 			// Filter Contours
-
+			valid = 0;
 			index1 = 0;
 			index2 = 0;
 			maxFinalArea1 = 0;
 			maxFinalArea2 = 0;
+			bb = new Rect(0, 0, RESOLUTION_WIDTH, RESOLUTION_HEIGHT);
+			bb1 = new Rect(0, 0, RESOLUTION_WIDTH, RESOLUTION_HEIGHT);
 
 			for (int i = 0; i < contours.size(); i++) {
 				final MatOfPoint contour = contours.get(i);
 				final double area = Imgproc.contourArea(contour);
-				if (area > filterContoursMinArea) { // && Imgproc.arcLength(new MatOfPoint2f(contour.toArray()), true) <
+				if (area > contourMinArea || true) { // && Imgproc.arcLength(new MatOfPoint2f(contour.toArray()), true) <
 													// filterContoursMinPerimeter
 					if (area > maxFinalArea1) {
 						index2 = index1;
@@ -156,12 +143,14 @@ public class Camera extends Subsystem {
 						index2 = i;
 						maxFinalArea2 = area;
 					}
+					valid++;
 				}
 			}
 
 			if (contours.size() > 0) {
 				bb = Imgproc.boundingRect(contours.get(index1));
 				bb1 = Imgproc.boundingRect(contours.get(index2));
+				System.out.println(maxFinalArea1);
 			}
 		}
 	}

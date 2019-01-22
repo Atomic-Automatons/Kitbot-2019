@@ -36,17 +36,14 @@ public class CameraTurn extends Command {
          * timer--;
          */
 
-        // Camera.getInstance().process();
-
         // SmartDashboard.putNumber("Contour Number",
         // Camera.getInstance().getContourNum());
-        // SmartDashboard.putNumber("maxFinal1", Camera.getInstance().getMaxArea1());
-        // SmartDashboard.putNumber("maxFinal2", Camera.getInstance().getMaxArea2());
         // SmartDashboard.putNumber("Bounding Box 1 middle",
         // Camera.getInstance().getCenterbb1());
         // SmartDashboard.putNumber("Bounding Box 2 middle",
         // Camera.getInstance().getCenterbb2());
         // SmartDashboard.putNumber("Center Raw", Camera.getInstance().getCenterRaw());
+
         double center = Camera.getInstance().getCenter();
         SmartDashboard.putNumber("Center", center);
 
@@ -59,7 +56,7 @@ public class CameraTurn extends Command {
     }
 
     double upper = 0.5;
-    double lower = 0.4;
+    double lower = 0.39;
 
     protected double clamp(double val) {
         if (Math.abs(val) > upper) {
