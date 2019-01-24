@@ -19,6 +19,10 @@ public class Ultrasonic extends Subsystem{
             instance = new Ultrasonic();
         return instance;
     }
+    
+    public double getDistance() {
+    	return (read()/ (0.00488 / 5) / 1000);
+    }
 
    private static AnalogInput input; 
     private Ultrasonic() {
@@ -30,7 +34,7 @@ public class Ultrasonic extends Subsystem{
      */
     public double read(){
        return input.getVoltage();
-    }
+    }//hi :)
 
   
 
