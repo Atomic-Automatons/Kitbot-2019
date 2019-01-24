@@ -17,6 +17,10 @@ public class RobotMap {
   public static int leftLauncherMotor = 4;
   public static int rightLauncherMotor = 5;
 
+  //analog portss
+  public static int USPort = 0;
+  public static int[] PRPorts = {1,2,3};
+
   // If you are using multiple modules, make sure to define both the port
   // number and the module. For example you with a rangefinder:
   // public static int rangefinderPort = 1;

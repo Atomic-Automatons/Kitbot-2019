@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.RobotMap;
 
 public class Photoresistor extends Subsystem {
     private static Photoresistor instance;
@@ -19,7 +20,7 @@ public class Photoresistor extends Subsystem {
         return instance;
     }
 
-    private DigitalInput[] arrayPhotoresistors = { new DigitalInput(1), new DigitalInput(2), new DigitalInput(3) };
+    private DigitalInput[] arrayPhotoresistors = { new DigitalInput(RobotMap.PRPorts[0]), new DigitalInput(RobotMap.PRPorts[1]), new DigitalInput(RobotMap.PRPorts[2]) };
 
     private Photoresistor() {
 
