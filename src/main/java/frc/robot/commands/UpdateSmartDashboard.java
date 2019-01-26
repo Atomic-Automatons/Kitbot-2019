@@ -31,7 +31,7 @@ public class UpdateSmartDashboard extends Command {
         SmartDashboard.putNumber("Angle Degrees", Gyro.getInstance().getDegrees());
         SmartDashboard.putNumber("Total Angle", Gyro.getInstance().getDegreesTotal());
 
-        SmartDashboard.putNumber("Ultrasonic voltage", (Ultrasonic.getInstance().read() / (0.00488 / 5) / 1000));
+        SmartDashboard.putNumber("Ultrasonic distance", (Ultrasonic.getInstance().getDistance()));
     }
 
     @Override
