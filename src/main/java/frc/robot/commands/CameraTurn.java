@@ -22,24 +22,30 @@ public class CameraTurn extends Command {
     @Override
     protected void initialize() {
         DriveSystem.getInstance().startAuto();
-        //Camera.getInstance().startThread();
+        // Camera.getInstance().startThread();
     }
 
     int timer = 0;
+    double speed = 0.5;
+    double deadband = 2;
 
     @Override
     protected void execute() {
-        double center = JeVois.getInstance().getAngle(); 
-        if (Math.abs(center) > 0.07) {
-            double val = clamp(center);
-            DriveSystem.getInstance().arcadeDrive(0, val);
+        double center = JeVois.getInstance().getAngle();
+        /*
+         * if (Math.abs(center) > 0.07) { double val = clamp(center);
+         * DriveSystem.getInstance().arcadeDrive(0, val); } else {
+         * DriveSystem.getInstance().arcadeDrive(0, 0); }
+         */
+        if (Math.abs(center) >= deadband) {
+            DriveSystem.getInstance().arcadeDrive(0, clamp((center / 20)));
         } else {
             DriveSystem.getInstance().arcadeDrive(0, 0);
         }
     }
 
     double upper = 0.5;
-    double lower = 0.39;
+    double lower = 0.41;
 
     protected double clamp(double val) {
         if (Math.abs(val) > upper) {
@@ -54,6 +60,6 @@ public class CameraTurn extends Command {
     @Override
     protected void end() {
         DriveSystem.getInstance().stop();
-       // Camera.getInstance().stopThread();
+        // Camera.getInstance().stopThread();
     }
 }

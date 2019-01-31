@@ -27,6 +27,8 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("Turn 90", new Turn(90));
     m_chooser.addOption("Follow Line", new FollowLine());
     m_chooser.addOption("RetractHatcher",new RetractHatchGrabber());
+    m_chooser.addOption("CameraTurnito >>><<>><<<>><<<>>>", new CameraTurn());
+   // m_chooser.addOption("Beyblade Mode", new Beyblade());
     SmartDashboard.putData("Auto mode", m_chooser);
 
     m_dashboardCommand.start();
