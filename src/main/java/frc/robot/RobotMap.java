@@ -19,7 +19,15 @@ public class RobotMap {
 
   //analog portss
   public static int USPort = 0;
+
+  //digital ports
+  public static int GrabberSwitch = 0;
   public static int[] PRPorts = {1,2,3};
+
+  //Grabber thingy motor ports(hatch)
+ public static int upMotor = 6;
+ public static int leverMotor = 7;
+
 
   // If you are using multiple modules, make sure to define both the port
   // number and the module. For example you with a rangefinder:

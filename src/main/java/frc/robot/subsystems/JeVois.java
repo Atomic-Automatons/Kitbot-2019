@@ -1,36 +1,57 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoMode.PixelFormat;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.SerialPort.Port;
+import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
-/**
- * An example subsystem. You can replace me with your own Subsystem.
- */
 public class JeVois extends Subsystem {
 	private static JeVois instance = null;
 	private static Thread t;
-	private static SerialPort port = new SerialPort(9600, SerialPort.Port.kUSB);
+	private static SerialPort port;
+	private double angle = 0.0;
 
-	// Put methods for controlling this subsystem
-	// here. Call these from Commands.
-	
 	public static JeVois getInstance() {
 		if (instance == null) {
 			instance = new JeVois();
 		}
 		return instance;
 	}// end method getInstance()
-	
+
 	private JeVois() {
+		port = new SerialPort(115200, Port.kUSB);
+		port.enableTermination();
+		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+		camera.setResolution(320, 240);
+		camera.setFPS(30);
+		camera.setPixelFormat(PixelFormat.kYUYV);
+		//CameraServer.getInstance().addCamera(camera);
+		
 	}
-	
+
 	public void startThread() {
 		t = new Thread(() -> {
 			while (!Thread.interrupted()) {
-				if(port.getBytesReceived() > 10) {
-					System.out.println(port.getBytesReceived());
+				// System.out.println("Data: " + port.readString());
+
+				//System.out.println("Wrote: " + port.writeString("ping"));
+				//System.out.println("Bytes Received: " + port.getBytesReceived());
+				while (port.getBytesReceived() > 2){
+					String data = port.readString().trim();
+
+					if (data.length() > 0){
+						System.out.println("data: '" + data + "'");
+						if(data.startsWith("INF")){
+							//Handle
+						}else{
+							center(data);
+						}
+					}else {
+						System.out.println("data: is no bueno, is null");
+					}
 				}
 			}
 		});
@@ -42,10 +63,21 @@ public class JeVois extends Subsystem {
 		t.interrupt();
 	}
 
-
 	@Override
 	public void initDefaultCommand() {
-		// Set the default command for a subsystem here.
-		// setDefaultCommand(new MySpecialCommand());
+
+	}
+	public void center(String info){
+		try{
+			angle = Double.parseDouble(info);
+		}catch(Exception e){
+			System.out.println("it failed");
+			e.printStackTrace();
+		}
+		
+	}
+
+	public double getAngle(){
+		return angle;
 	}
 }

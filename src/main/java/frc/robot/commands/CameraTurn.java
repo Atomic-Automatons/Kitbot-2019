@@ -2,8 +2,9 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.Camera;
+//import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.DriveSystem;
+import frc.robot.subsystems.JeVois;
 
 public class CameraTurn extends Command {
 
@@ -21,32 +22,14 @@ public class CameraTurn extends Command {
     @Override
     protected void initialize() {
         DriveSystem.getInstance().startAuto();
-        Camera.getInstance().startThread();
+        //Camera.getInstance().startThread();
     }
 
     int timer = 0;
 
     @Override
     protected void execute() {
-        /*
-         * if (timer == 0) {
-         * 
-         * timer = 100; }
-         * 
-         * timer--;
-         */
-
-        // SmartDashboard.putNumber("Contour Number",
-        // Camera.getInstance().getContourNum());
-        // SmartDashboard.putNumber("Bounding Box 1 middle",
-        // Camera.getInstance().getCenterbb1());
-        // SmartDashboard.putNumber("Bounding Box 2 middle",
-        // Camera.getInstance().getCenterbb2());
-        // SmartDashboard.putNumber("Center Raw", Camera.getInstance().getCenterRaw());
-
-        double center = Camera.getInstance().getCenter();
-        SmartDashboard.putNumber("Center", center);
-
+        double center = JeVois.getInstance().getAngle(); 
         if (Math.abs(center) > 0.07) {
             double val = clamp(center);
             DriveSystem.getInstance().arcadeDrive(0, val);
@@ -71,6 +54,6 @@ public class CameraTurn extends Command {
     @Override
     protected void end() {
         DriveSystem.getInstance().stop();
-        Camera.getInstance().stopThread();
+       // Camera.getInstance().stopThread();
     }
 }

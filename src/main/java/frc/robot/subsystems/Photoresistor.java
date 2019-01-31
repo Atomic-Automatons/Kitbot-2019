@@ -20,7 +20,8 @@ public class Photoresistor extends Subsystem {
         return instance;
     }
 
-    private DigitalInput[] arrayPhotoresistors = { new DigitalInput(RobotMap.PRPorts[0]), new DigitalInput(RobotMap.PRPorts[1]), new DigitalInput(RobotMap.PRPorts[2]) };
+    private DigitalInput[] arrayPhotoresistors = { new DigitalInput(RobotMap.PRPorts[0]),
+            new DigitalInput(RobotMap.PRPorts[1]), new DigitalInput(RobotMap.PRPorts[2]) };
 
     private Photoresistor() {
 

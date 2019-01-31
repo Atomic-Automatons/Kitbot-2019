@@ -25,13 +25,14 @@ public class UpdateSmartDashboard extends Command {
         SmartDashboard.putBoolean("PR middle", Photoresistor.getInstance().getVals()[1]);
         SmartDashboard.putBoolean("PR right", Photoresistor.getInstance().getVals()[2]);
 
-        SmartDashboard.putNumber("Max Area 1", Camera.getInstance().getMaxArea1());
-        SmartDashboard.putNumber("Max Area 2", Camera.getInstance().getMaxArea2());
+        //SmartDashboard.putNumber("Max Area 1", Camera.getInstance().getMaxArea1());
+        //SmartDashboard.putNumber("Max Area 2", Camera.getInstance().getMaxArea2());
 
         SmartDashboard.putNumber("Angle Degrees", Gyro.getInstance().getDegrees());
         SmartDashboard.putNumber("Total Angle", Gyro.getInstance().getDegreesTotal());
 
         SmartDashboard.putNumber("Ultrasonic distance", (Ultrasonic.getInstance().getDistance()));
+        SmartDashboard.putNumber("Camera Angle", JeVois.getInstance().getAngle());
     }
 
     @Override

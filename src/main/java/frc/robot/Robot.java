@@ -6,14 +6,13 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.*;
-import frc.robot.subsystems.Gyro;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.*;
 
 public class Robot extends TimedRobot {
   public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
   public static OI m_oi;
   Command m_dashboardCommand = new UpdateSmartDashboard();
-  Command m_autonomousCommand = new CameraTurn();
+  Command m_autonomousCommand;// = new CameraTurn();
   Command m_teleopCommand = new JoystickDrive();
 
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -21,13 +20,13 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_oi = new OI();
-
+    JeVois.getInstance().startThread();
     System.out.println("Gyro Connected: " + Gyro.getInstance().isConnected());
 
     m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
-    m_chooser.addOption("Camera Turn", new CameraTurn());
     m_chooser.addOption("Turn 90", new Turn(90));
     m_chooser.addOption("Follow Line", new FollowLine());
+    m_chooser.addOption("RetractHatcher",new RetractHatchGrabber());
     SmartDashboard.putData("Auto mode", m_chooser);
 
     m_dashboardCommand.start();
@@ -101,6 +100,7 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
