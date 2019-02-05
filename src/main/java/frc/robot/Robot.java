@@ -3,9 +3,11 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.*;
+import frc.robot.commands.HatchCommands.*;
 import frc.robot.subsystems.*;
 
 public class Robot extends TimedRobot {
@@ -19,16 +21,21 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
+    LiveWindow.disableAllTelemetry();
+    
     m_oi = new OI();
-    JeVois.getInstance().startThread();
+    System.out.println("Camera Connected: " + JeVois.getInstance().isConnected());
     System.out.println("Gyro Connected: " + Gyro.getInstance().isConnected());
 
-    m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
+    m_chooser.setDefaultOption("Do Nothing", new ExampleCommand());
     m_chooser.addOption("Turn 90", new Turn(90));
     m_chooser.addOption("Follow Line", new FollowLine());
-    m_chooser.addOption("RetractHatcher",new RetractHatchGrabber());
-    m_chooser.addOption("CameraTurnito >>><<>><<<>><<<>>>", new CameraTurn());
-   // m_chooser.addOption("Beyblade Mode", new Beyblade());
+    //m_chooser.addOption("Retract Hatcher",new ExtendHatchGrabber());
+    m_chooser.addOption("Camera Turn", new CameraTurn());
+    m_chooser.addOption("Extend Hatch Grabber", new ExtendHatchGrabber());
+    m_chooser.addOption("MoveHatchUp", new MoveHatchUp());
+    m_chooser.addOption("Retract Hatch", new RetractHatchLever());
+    //m_chooser.addOption("Beyblade Mode", new Beyblade());
     SmartDashboard.putData("Auto mode", m_chooser);
 
     m_dashboardCommand.start();

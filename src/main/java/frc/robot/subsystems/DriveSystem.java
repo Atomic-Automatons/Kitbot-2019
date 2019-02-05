@@ -1,13 +1,14 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import frc.robot.RobotMap;
 
 public class DriveSystem extends Subsystem {
@@ -40,8 +41,8 @@ public class DriveSystem extends Subsystem {
 		drive.setSafetyEnabled(false);
 
 		gearShift = new DoubleSolenoid(0, 1);
-		shiftUp();
 
+		shiftUp();
 	}
 
 	public void shiftUp() {
@@ -53,7 +54,10 @@ public class DriveSystem extends Subsystem {
 	}
 
 	/**
-	 * speed and rotation
+	 * This Function controls driving using speed and turn speed
+	 * 
+	 * @param x = Speed
+	 * @param y = Direction
 	 */
 	public void arcadeDrive(double x, double y) {
 		drive.arcadeDrive(x, y);
@@ -70,5 +74,10 @@ public class DriveSystem extends Subsystem {
 
 	@Override
 	public void initDefaultCommand() {
+	}
+
+	@Override
+	public void initSendable(SendableBuilder builder) {
+
 	}
 }

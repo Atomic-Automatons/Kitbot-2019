@@ -9,12 +9,12 @@ public class FollowLine extends Command {
 	double turnSpeed = 0; // 0.2
 	double moveSpeed = 0.31; // 0.6
 	double maxDistance = 0.35;// distance from ultrasonic sensor to wall in meters
-	double turnNum = 0.43;//the magnitude of the turning value
+	double turnNum = 0.43;// the magnitude of the turning value
 	boolean[] active = { false, false, false };
 
 	public FollowLine() {
 		super();
-		requires(DriveSystem.getInstance());
+		//requires(DriveSystem.getInstance());
 	}
 
 	@Override
@@ -29,11 +29,16 @@ public class FollowLine extends Command {
 
 	@Override
 	protected void execute() {
-		double speedNum=0.5;
+		if(isFinished()){
+			return;
+		}
+		
+		double speedNum = 0.5;
 
 		active = Photoresistor.getInstance().getVals();
-		// active[0] is the left most photoresistor and active[2] is the right most photoresistor
-		
+		// active[0] is the left most photoresistor and active[2] is the right most
+		// photoresistor
+
 		if (active[0]) {
 			turnSpeed = -turnNum;
 		} else if (active[2]) {

@@ -1,9 +1,10 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.*;
-
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.*;
+import frc.robot.commands.HatchCommands.*;
 
 public class OI {
 	//// CREATING BUTTONS
@@ -19,13 +20,27 @@ public class OI {
 	public static Button down = new JoystickButton(stick, 6);
 	public static Button inhale = new JoystickButton(stick, 9);
 	public static Button exhale = new JoystickButton(stick, 7);
+	//public static Button beyblade = new JoystickButton(stick, 10);
 	public static Button followLine = new JoystickButton(stick, 11);
+	public static Button followCamera = new JoystickButton(stick, 12);
+	public static Button openHatch = new JoystickButton(stick,2);
+	public static Button closeHatch = new JoystickButton(stick, 1);
+	public static Button raiseHatch = new JoystickButton(stick, 3);
+	public static Button raiseHatchFast = new JoystickButton(stick, 4);
+	
 	static {
 		up.whenPressed(new ShiftUp());
 		down.whenPressed(new ShiftDown());
 		inhale.whileHeld(new Inhale());
 		exhale.whileHeld(new Exhale());
-		followLine.whenPressed(new FollowLine());
+		followLine.whileHeld(new FollowLine());
+		followCamera.whileHeld(new CameraTurn());
+		//beyblade.whileHeld(new Beyblade());
+		openHatch.whenPressed(new OpenGrabber());
+		closeHatch.whenPressed(new CloseGrabber());
+	
+		raiseHatch.whenPressed(new UpDown(false));
+		raiseHatchFast.whenPressed(new UpDown(true));
 	}
 	// There are a few additional built in buttons you can use. Additionally,
 	// by subclassing Button you can create custom triggers and bind those to
