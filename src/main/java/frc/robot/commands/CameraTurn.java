@@ -31,6 +31,7 @@ public class CameraTurn extends Command {
 
     @Override
     protected void execute() {
+        System.out.println("CAMERA TURN");
         double center = JeVois.getInstance().getAngle();
         double move = JeVois.getInstance().getSize();
         double moveSpeed = 0;

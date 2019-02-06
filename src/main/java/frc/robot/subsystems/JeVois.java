@@ -70,7 +70,7 @@ public class JeVois extends Subsystem {
 				// System.out.println("data: '" + data + "'");
 				if (data.startsWith("TTM")) {
 					samples++;
-					System.out.println(data);
+					//System.out.println(data);
 					try {
 						String[] split = data.split(" ");
 						angle += Double.parseDouble(split[1]);

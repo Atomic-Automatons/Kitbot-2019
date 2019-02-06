@@ -20,7 +20,9 @@ public class JoystickDrive extends Command {
   protected void execute() {
     double sensitivity = (1 - OI.stick.getRawAxis(OI.joystickSensitivityAxis));
     // Joystick going forward is negative
-    DriveSystem.getInstance().arcadeDrive(-1 * sensitivity * OI.stick.getY(), sensitivity * OI.stick.getX());
+    double y = OI.stick.getY();
+    double x = OI.stick.getX();
+    DriveSystem.getInstance().arcadeDrive(-1 * sensitivity * y * Math.abs(y), sensitivity * x * Math.abs(x));
   }
 
   @Override

@@ -33,6 +33,10 @@ public class UpdateSmartDashboard extends Command {
 
         SmartDashboard.putNumber("Ultrasonic distance", (Ultrasonic.getInstance().getDistance()));
         SmartDashboard.putNumber("Camera Angle", JeVois.getInstance().getAngle());
+        
+        SmartDashboard.putBoolean("Grabber bottom", Launcher.getInstance().readDownSwitch());
+        SmartDashboard.putBoolean("Grabber top", Launcher.getInstance().readUpSwitch());
+    
     }
 
     @Override

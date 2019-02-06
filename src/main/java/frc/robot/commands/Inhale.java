@@ -17,7 +17,7 @@ public class Inhale extends Command {
 
     @Override
     protected void initialize() {
-        Launcher.getInstance().setSpeed(-1);
+        Launcher.getInstance().setSpeed(-0.7);
     }
 
     @Override
