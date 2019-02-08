@@ -2,12 +2,12 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-import frc.robot.subsystems.Launcher;
+import frc.robot.subsystems.Cargo;
 
-public class Inhale extends Command {
-    public Inhale() {
+public class CargoInhale extends Command {
+    public CargoInhale() {
         super();
-        requires(Launcher.getInstance());
+        requires(Cargo.getInstance());
     }
 
     @Override
@@ -17,11 +17,11 @@ public class Inhale extends Command {
 
     @Override
     protected void initialize() {
-        Launcher.getInstance().setSpeed(-0.7);
+        Cargo.getInstance().setSpeed(-0.5);
     }
 
     @Override
     protected void end() {
-        Launcher.getInstance().setSpeed(0);
+        Cargo.getInstance().setSpeed(0);
     }
 }

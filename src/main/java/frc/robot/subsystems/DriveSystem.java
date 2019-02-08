@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import frc.robot.RobotMap;
 
@@ -34,8 +33,8 @@ public class DriveSystem extends Subsystem {
 		SpeedController right = new SpeedControllerGroup(backRight, frontRight);
 		SpeedController left = new SpeedControllerGroup(backLeft, frontLeft);
 
-		// left.setInverted(true);
-		// right.setInverted(true);
+		left.setInverted(true);
+		right.setInverted(true);
 
 		drive = new DifferentialDrive(left, right);
 		drive.setSafetyEnabled(false);

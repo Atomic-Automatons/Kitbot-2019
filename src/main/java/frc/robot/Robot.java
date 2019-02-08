@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.*;
-import frc.robot.commands.HatchCommands.*;
 import frc.robot.subsystems.*;
 
 public class Robot extends TimedRobot {
@@ -22,20 +21,20 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     LiveWindow.disableAllTelemetry();
-    
+
     m_oi = new OI();
     System.out.println("Camera Connected: " + JeVois.getInstance().isConnected());
     System.out.println("Gyro Connected: " + Gyro.getInstance().isConnected());
+    DriveSystem.getInstance().shiftDown();
 
     m_chooser.setDefaultOption("Do Nothing", new ExampleCommand());
     m_chooser.addOption("Turn 90", new Turn(90));
     m_chooser.addOption("Follow Line", new FollowLine());
-    //m_chooser.addOption("Retract Hatcher",new ExtendHatchGrabber());
+    // m_chooser.addOption("Retract Hatcher",new ExtendHatchGrabber());
     m_chooser.addOption("Camera Turn", new CameraTurn());
-    m_chooser.addOption("Extend Hatch Grabber", new ExtendHatchGrabber());
-    m_chooser.addOption("MoveHatchUp", new MoveHatchUp());
-    m_chooser.addOption("Retract Hatch", new RetractHatchLever());
-    //m_chooser.addOption("Beyblade Mode", new Beyblade());
+    m_chooser.addOption("Extend Hatch Grabber", new ToggleHatchLever());
+    m_chooser.addOption("MoveHatchUp", new ToggleHatchElevator());
+    // m_chooser.addOption("Beyblade Mode", new Beyblade());
     SmartDashboard.putData("Auto mode", m_chooser);
 
     m_dashboardCommand.start();
@@ -109,7 +108,7 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    
+
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }

@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 
@@ -11,12 +12,27 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 public class HatchControls extends Subsystem {
     private static HatchControls instance;
 
-    public Spark upMotor;
-    public Spark leverMotor;
-    private DigitalInput limitSwitch;
-    private DigitalInput limitSwitchDown;
-    private DoubleSolenoid boneSnapper;
-    private boolean toggle = false;
+    public Spark upMotor = new Spark(RobotMap.upMotor);
+    public Spark leverMotor = new Spark(RobotMap.leverMotor);;
+
+    private DigitalInput limitSwitchUp = new DigitalInput(RobotMap.hatchSwitchTop);
+    private DigitalInput limitSwitchDown = new DigitalInput(RobotMap.hatchSwitchBottom);
+
+    private DoubleSolenoid cylinder = new DoubleSolenoid(RobotMap.hatchPneumaticsForward,
+            RobotMap.hatchPneumaticsReverse);
+
+    private boolean up = false;
+
+    private double goingUpSpeed = 0.7;// 1
+    private double stall = 0.0;
+    private double goingDownSpeed = -0.7;
+
+    private double maxTime = 45;
+    private Timer upTimer = new Timer();
+
+    private Timer leverTimer = new Timer();
+    private boolean moveLeverUp = true;
+    private double leverTime = 0.6;
 
     public static HatchControls getInstance() {
         if (instance == null)
@@ -25,79 +41,106 @@ public class HatchControls extends Subsystem {
     }
 
     private HatchControls() {
-        upMotor = new Spark(RobotMap.upMotor);
-        leverMotor = new Spark(RobotMap.leverMotor);
-        limitSwitch = new DigitalInput(RobotMap.grabberUpSwitch);
-        boneSnapper = new DoubleSolenoid(RobotMap.snap, RobotMap.snip);
-        limitSwitchDown = new DigitalInput(RobotMap.grabberDownSwitch);
+        upMotor.setInverted(true);
+
+        openCylinder();
+
+        upTimer.reset();
     }
 
-    public void close() {
-        boneSnapper.set(Value.kReverse);
+    public void closeCylinder() {
+        cylinder.set(Value.kReverse);
     }
 
-    public void open() {
-        boneSnapper.set(Value.kForward);
+    public void openCylinder() {
+        cylinder.set(Value.kForward);
     }
 
-    public void toggle() {
-        toggle = !toggle;
+    public void toggleCylinder() {
+        cylinder.set(cylinder.get() == Value.kForward ? Value.kReverse : Value.kForward);
     }
 
-    public boolean getToggle() {
-        return toggle;
+    public void periodic() {
+        if (upTimer.get() > maxTime) {
+            up = false;
+        }
+
+        if (up) {
+            if (isUp()) {
+                upMotor.set(stall);// Freeze
+            } else {
+                upMotor.set(goingUpSpeed); // Go up
+            }
+        } else {
+            if (isDown()) {
+                upMotor.set(0); // Stop
+                upTimer.reset();
+            } else {
+                upMotor.set(goingDownSpeed); // Go down
+            }
+        }
+
+        // System.out.println(leverTimer.get());
+
+        double time = leverTimer.get();
+        if (time < leverTime && time != 0) {
+            if (moveLeverUp) {
+                leverMotor.set(0.3);
+            } else {
+                leverMotor.set(-0.3);
+            }
+        } else {
+            leverTimer.stop();
+            leverTimer.reset();
+            leverMotor.set(0);
+        }
     }
 
-    public void initDefaultCommand() {
+    public boolean isGoingUp() {
+        return up;
     }
 
-    public boolean readSwitch() {
-        return !limitSwitch.get();
+    public void setUp(boolean up) {
+        this.up = up;
     }
 
-    public boolean readDownSwitch() {
+    public void toggleUp() {
+        up = !up;
+    }
+
+    public boolean isUp() {
+        return !limitSwitchUp.get();
+    }
+
+    public boolean isDown() {
         return !limitSwitchDown.get();
     }
 
-    public void moveMotorUp() {
-        double speed;
-        if (toggle) {
-            speed = 0.55;
-        } else {
-            speed = 0.7;
-        }
-        upMotor.set(speed);
-    }
-
-    public void moveMotorUpFAST() {
-        upMotor.set(0.7);
-    }
-
-    public void moveMotorDown() {
-        upMotor.set(0.1);// this one is one too
-    }
-
     public void moveLeverUp() {
-        leverMotor.set(0.30);
+        leverTimer.reset();
+        leverTimer.start();
+        moveLeverUp = true;
     }
 
     public void moveLeverDown() {
-        leverMotor.set(-0.3);
+        leverTimer.reset();
+        leverTimer.start();
+        moveLeverUp = false;
     }
 
-    public void chillLeverMotor() {
-        leverMotor.set(0.1);
+    public void toggleLever() {
+        double time = leverTimer.get();
+        if (time > leverTime || time != 0) {
+            return;
+        }
+
+        if (moveLeverUp) {
+            moveLeverDown();
+        } else {
+            moveLeverUp();
+        }
     }
 
-    public void chillUpMotor() {
-        upMotor.set(0.35);
-    }
-
-    public void stopUp() {
-        upMotor.set(0);
-    }
-
-    public void stopLever() {
-        leverMotor.set(0);
+    public void initDefaultCommand() {
     }
 }
