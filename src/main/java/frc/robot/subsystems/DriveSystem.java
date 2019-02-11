@@ -22,7 +22,14 @@ public class DriveSystem extends Subsystem {
 	}
 
 	private DifferentialDrive drive;
-	private DoubleSolenoid gearShift;
+
+	private DoubleSolenoid gearShift = new DoubleSolenoid(0, 1);
+
+	private SpeedController right;
+	private SpeedController left;
+
+	private double modifier = 1;
+	private boolean inverted = false;
 
 	public DriveSystem() {
 		PWMVictorSPX backLeft = new PWMVictorSPX(RobotMap.backLeftMotor);
@@ -30,16 +37,16 @@ public class DriveSystem extends Subsystem {
 		PWMVictorSPX backRight = new PWMVictorSPX(RobotMap.backRightMotor);
 		PWMVictorSPX frontRight = new PWMVictorSPX(RobotMap.frontRightMotor);
 
-		SpeedController right = new SpeedControllerGroup(backRight, frontRight);
-		SpeedController left = new SpeedControllerGroup(backLeft, frontLeft);
+		right = new SpeedControllerGroup(backRight, frontRight);
+		left = new SpeedControllerGroup(backLeft, frontLeft);
 
 		left.setInverted(true);
 		right.setInverted(true);
 
 		drive = new DifferentialDrive(left, right);
+		// drive.setRightSideInverted(true);
+		// drive.set
 		drive.setSafetyEnabled(false);
-
-		gearShift = new DoubleSolenoid(0, 1);
 
 		shiftUp();
 	}
@@ -59,7 +66,7 @@ public class DriveSystem extends Subsystem {
 	 * @param y = Direction
 	 */
 	public void arcadeDrive(double x, double y) {
-		drive.arcadeDrive(x, y);
+		drive.arcadeDrive(modifier * x, y);
 	}
 
 	public void startAuto() {
@@ -71,12 +78,30 @@ public class DriveSystem extends Subsystem {
 		drive.setSafetyEnabled(true);
 	}
 
-	@Override
-	public void initDefaultCommand() {
+	public void enableInverted() {
+		// left.setInverted(false);
+		// right.setInverted(false);
+		modifier = -1;
+		inverted = true;
+	}
+
+	public void disableInverted() {
+		// left.setInverted(true);
+		// right.setInverted(true);
+		modifier = 1;
+		inverted = false;
+	}
+
+	public void toggleInverted() {
+		System.out.println("sduhsdh");
+		if (inverted) {
+			disableInverted();
+		} else {
+			enableInverted();
+		}
 	}
 
 	@Override
-	public void initSendable(SendableBuilder builder) {
-
+	public void initDefaultCommand() {
 	}
 }

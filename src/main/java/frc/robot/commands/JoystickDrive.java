@@ -22,9 +22,10 @@ public class JoystickDrive extends Command {
     // Joystick going forward is negative
     double y = OI.stick.getY();
     double x = OI.stick.getX();
-    // The ( -1 * -1 ) in arcade drive exists to explain that the joystick input 
-    // is backward, but the gearbox inverts the input, so it balances out in ( -1 * -1 )
-    DriveSystem.getInstance().arcadeDrive( ( -1 * -1 ) * sensitivity * y * y * y, sensitivity * x * x * x);
+    // The ( -1 * -1 ) in arcade drive exists to explain that the joystick input
+    // is backward, but the gearbox inverts the input, so it balances out in ( -1 *
+    // -1 )
+    DriveSystem.getInstance().arcadeDrive((-1 * -1) * sensitivity * y, sensitivity * x);
   }
 
   @Override

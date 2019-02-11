@@ -24,7 +24,7 @@ public class HatchControls extends Subsystem {
     private boolean up = false;
 
     private double goingUpSpeed = 0.7;// 1
-    private double stall = 0.0;
+    private double stall = 0.2;
     private double goingDownSpeed = -0.7;
 
     private double maxTime = 45;

@@ -10,44 +10,43 @@ public class Cargo extends Subsystem {
     static private Cargo instance = null;
 
     static public Cargo getInstance() {
-        if (instance == null) {
+        if (instance == null) 
             instance = new Cargo();
-        }
+        
         return instance;
     }
 
-    private Spark bottom;
-    private Spark top;
-    private Spark upDown;
-    private DigitalInput lowerSwitch;
-    private DigitalInput upperSwitch;
-    private Timer timer;
+    private Spark bottom = new Spark(RobotMap.bottom);
+    private Spark top = new Spark(RobotMap.top);
+    private Spark upDown = new Spark(RobotMap.launcherElevator);
+
+    private DigitalInput lowerSwitch = new DigitalInput(RobotMap.cargoSwitchBottom);
+    private DigitalInput upperSwitch = new DigitalInput(RobotMap.cargoSwitchTop);
+
+    private Timer timer = new Timer();
     private float maxTime = 45;// seconds
 
     private boolean up = false;
 
     private Cargo() {
-        timer = new Timer();
         timer.reset();
-        
-        bottom = new Spark(RobotMap.bottom);
-        top = new Spark(RobotMap.top);
 
-        upDown = new Spark(RobotMap.launcherElevator);
         upDown.setInverted(true);
 
         bottom.setSafetyEnabled(false);
-        bottom.setInverted(true);
+        // bottom.setInverted(true);
 
         top.setSafetyEnabled(false);
-
-        lowerSwitch = new DigitalInput(RobotMap.cargoSwitchBottom);
-        upperSwitch = new DigitalInput(RobotMap.cargoSwitchTop);
     }
 
     public void setSpeed(double speed) {
         bottom.set(speed);
         top.set(speed);
+    }
+
+    public void ejectCargo() {
+        bottom.set(-1);
+        top.set(-1);
     }
 
     public void setUp(boolean up) {
@@ -63,9 +62,9 @@ public class Cargo extends Subsystem {
         top.set(0);
     }
 
-    private double goingUpSpeed = 0.6;
-    private double stall = 0.35;
-    private double goingDownSpeed = 0.12;
+    private double goingUpSpeed = 0.8;
+    private double stall = 0.2; // Find later
+    private double goingDownSpeed = -0.6;
 
     public void periodic() {
         if (timer.get() > maxTime) {

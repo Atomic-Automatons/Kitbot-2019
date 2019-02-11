@@ -17,7 +17,7 @@ public class CargoInhale extends Command {
 
     @Override
     protected void initialize() {
-        Cargo.getInstance().setSpeed(-0.5);
+        Cargo.getInstance().setSpeed(0.5);
     }
 
     @Override

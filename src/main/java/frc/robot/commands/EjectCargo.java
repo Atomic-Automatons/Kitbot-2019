@@ -3,8 +3,8 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Cargo;
 
-public class CargoExhale extends Command {
-  public CargoExhale() {
+public class EjectCargo extends Command {
+  public EjectCargo() {
     super();
     requires(Cargo.getInstance());
   }
@@ -16,7 +16,7 @@ public class CargoExhale extends Command {
 
   @Override
   protected void initialize() {
-    Cargo.getInstance().setSpeed(0.7);
+    Cargo.getInstance().ejectCargo();
   }
 
   @Override

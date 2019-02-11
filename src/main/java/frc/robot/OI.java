@@ -13,6 +13,7 @@ public class OI {
 	// Drivebase
 	public static Button shiftUp = new JoystickButton(stick, 5);
 	public static Button shiftDown = new JoystickButton(stick, 6);
+	public static Button invertDriveBase = new JoystickButton(stick, 8);
 
 	// Cargo
 	public static Button inhale = new JoystickButton(stick, 9);
@@ -33,10 +34,11 @@ public class OI {
 		// Drivebase
 		shiftUp.whenPressed(new ShiftUp());
 		shiftDown.whenPressed(new ShiftDown());
+		invertDriveBase.whenPressed(new ToggleInvertDriveSystem());
 
 		// Cargo
 		inhale.whileHeld(new CargoInhale());
-		exhale.whileHeld(new CargoExhale());
+		exhale.whileHeld(new EjectCargo());
 		cargoElevator.whenPressed(new ToggleCargoElevator());
 
 		// Autonomous
