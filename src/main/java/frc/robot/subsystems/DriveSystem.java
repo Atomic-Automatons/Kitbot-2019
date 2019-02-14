@@ -1,5 +1,8 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
@@ -7,7 +10,6 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import frc.robot.RobotMap;
 
 public class DriveSystem extends Subsystem {
@@ -25,26 +27,29 @@ public class DriveSystem extends Subsystem {
 
 	private DoubleSolenoid gearShift = new DoubleSolenoid(0, 1);
 
-	private SpeedController right;
-	private SpeedController left;
-
 	private double modifier = 1;
 	private boolean inverted = false;
 
-	public DriveSystem() {
-		PWMVictorSPX backLeft = new PWMVictorSPX(RobotMap.backLeftMotor);
-		PWMVictorSPX frontLeft = new PWMVictorSPX(RobotMap.frontLeftMotor);
-		PWMVictorSPX backRight = new PWMVictorSPX(RobotMap.backRightMotor);
-		PWMVictorSPX frontRight = new PWMVictorSPX(RobotMap.frontRightMotor);
+	WPI_VictorSPX frontRight = new WPI_VictorSPX(1);
+	WPI_VictorSPX backRight = new WPI_VictorSPX(2);
+	WPI_VictorSPX frontLeft = new WPI_VictorSPX(3);
+	WPI_VictorSPX backLeft = new WPI_VictorSPX(4);
 
-		right = new SpeedControllerGroup(backRight, frontRight);
-		left = new SpeedControllerGroup(backLeft, frontLeft);
+	private DriveSystem() {
+		frontRight.setInverted(InvertType.InvertMotorOutput);
+		backRight.follow(frontRight);
+		backRight.setInverted(InvertType.FollowMaster);
 
-		left.setInverted(true);
-		right.setInverted(true);
+		frontLeft.setInverted(InvertType.None);
+		backLeft.follow(frontLeft);
+		backLeft.setInverted(InvertType.FollowMaster);
 
-		drive = new DifferentialDrive(left, right);
-		// drive.setRightSideInverted(true);
+		double rampTime = .5;
+		frontRight.configOpenloopRamp(rampTime);
+		frontLeft.configOpenloopRamp(rampTime);
+
+		drive = new DifferentialDrive(frontLeft, frontRight);
+		drive.setRightSideInverted(false);
 		// drive.set
 		drive.setSafetyEnabled(false);
 
@@ -93,7 +98,6 @@ public class DriveSystem extends Subsystem {
 	}
 
 	public void toggleInverted() {
-		System.out.println("sduhsdh");
 		if (inverted) {
 			disableInverted();
 		} else {
