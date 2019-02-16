@@ -20,8 +20,9 @@ public class RobotMap {
   public static int leverMotor = 1;
 
   // Analog ports
-  public static int USPort = 3;
-  public static int[] PRPorts = { 0, 1, 2 };
+  public static int USPortCargo = 0;
+  public static int USPortHatch = 1;
+  public static int[] PRPorts = {10, 11, 12 };
 
   // Digital ports
     // Limit Switches

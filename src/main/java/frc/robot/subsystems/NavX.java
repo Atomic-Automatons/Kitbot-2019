@@ -20,6 +20,7 @@ public class NavX extends Subsystem {
 	}
 
 	public boolean isConnected() {
+		
 		return ahrs.isConnected();
 	}
 
@@ -36,6 +37,10 @@ public class NavX extends Subsystem {
 	// Returns the total accumulated yaw angle (Z Axis, in degrees) reported by the
 	// sensor.
 	public double getAngle() {
+		return ahrs.getAngle() % 360;
+	}
+
+	public double getDegrees() {
 		return ahrs.getAngle() % 360;
 	}
 

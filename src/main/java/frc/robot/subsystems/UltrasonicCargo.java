@@ -4,8 +4,8 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 
-public class Ultrasonic extends Subsystem{
-    private static Ultrasonic instance;
+public class UltrasonicCargo extends Subsystem{
+    private static UltrasonicCargo instance;
 
     /**
      * getInstance command for Ultrasonic. It returns the instance of
@@ -14,9 +14,9 @@ public class Ultrasonic extends Subsystem{
      * 
      * @return instance
      */
-    public static Ultrasonic getInstance() {
+    public static UltrasonicCargo getInstance() {
         if (instance == null)
-            instance = new Ultrasonic();
+            instance = new UltrasonicCargo();
         return instance;
     }
     
@@ -25,8 +25,9 @@ public class Ultrasonic extends Subsystem{
     }
 
    private static AnalogInput input; 
-    private Ultrasonic() {
-        input = new AnalogInput(RobotMap.USPort);
+    private UltrasonicCargo() {
+
+        input = new AnalogInput(RobotMap.USPortCargo);
     }
     /**
      * read is a method that does stuff.

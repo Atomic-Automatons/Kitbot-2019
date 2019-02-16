@@ -1,6 +1,6 @@
 package frc.robot.commands;
 
-import frc.robot.subsystems.Ultrasonic;
+import frc.robot.subsystems.UltrasonicHatch;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.DriveSystem;
 import frc.robot.subsystems.JeVois;
@@ -16,7 +16,7 @@ public class CameraTurn extends Command {
     @Override
     protected boolean isFinished() {
         // return JeVois.getInstance().getSize() > distance;
-        return Ultrasonic.getInstance().getDistance() < maxDistance;
+        return UltrasonicHatch.getInstance().getDistance() < maxDistance;
     }
 
     @Override

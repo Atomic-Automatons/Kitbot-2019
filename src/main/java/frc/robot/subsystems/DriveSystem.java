@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import frc.robot.RobotMap;
 
 public class DriveSystem extends Subsystem {
@@ -66,7 +65,7 @@ public class DriveSystem extends Subsystem {
 	 * @param y = Direction
 	 */
 	public void arcadeDrive(double x, double y) {
-		drive.arcadeDrive(modifier * x, y);
+		drive.arcadeDrive(-1 * modifier * x, y);
 	}
 
 	public void startAuto() {
@@ -93,7 +92,6 @@ public class DriveSystem extends Subsystem {
 	}
 
 	public void toggleInverted() {
-		System.out.println("sduhsdh");
 		if (inverted) {
 			disableInverted();
 		} else {
