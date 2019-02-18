@@ -16,9 +16,9 @@ public class Cargo extends Subsystem {
         return instance;
     }
 
-    private Spark bottom = new Spark(RobotMap.bottom);
+    //private WPI_VictorSPX bottom = new WPI_VictorSPX(RobotMap.cargoBottom);
     private Spark top = new Spark(RobotMap.top);
-    private Spark upDown = new Spark(RobotMap.launcherElevator);
+    private Spark elevator = new Spark(RobotMap.launcherElevator);
 
     private DigitalInput lowerSwitch = new DigitalInput(RobotMap.cargoSwitchBottom);
     private DigitalInput upperSwitch = new DigitalInput(RobotMap.cargoSwitchTop);
@@ -31,7 +31,7 @@ public class Cargo extends Subsystem {
     private Cargo() {
         timer.reset();
 
-        upDown.setInverted(true);
+        elevator.setInverted(true);
 
         bottom.setSafetyEnabled(false);
         // bottom.setInverted(true);
@@ -73,16 +73,16 @@ public class Cargo extends Subsystem {
 
         if (up) {
             if (isUp()) {
-                upDown.set(stall);
+                elevator.set(stall);
             } else {
-                upDown.set(goingUpSpeed);
+                elevator.set(goingUpSpeed);
             }
         } else {
             if (isDown()) {
-                upDown.set(0);
+                elevator.set(0);
                 timer.reset();
             } else {
-                upDown.set(goingDownSpeed);
+                elevator.set(goingDownSpeed);
             }
         }
     }

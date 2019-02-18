@@ -11,7 +11,7 @@ public class RobotMap {
     public static int frontRightMotor = 6;
 
   // Launcher Motor Ports
-  public static int bottom = 3;
+  public static int cargoBottom = 3;
   public static int top = 4;
   public static int launcherElevator = 2;
 
