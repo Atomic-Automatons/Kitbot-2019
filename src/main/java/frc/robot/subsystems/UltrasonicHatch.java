@@ -29,9 +29,11 @@ public class UltrasonicHatch extends Subsystem{
     }
    
     public double getDistance(){
-        return input.getVoltage();
+        return (read()/ (0.00488 / 5) / 1000);
     }
-    
+    public double read(){
+        return input.getVoltage();
+     }
   
 
     @Override

@@ -33,17 +33,21 @@ public class Cargo extends Subsystem {
 
         upDown.setInverted(true);
 
+        top.setInverted(true);
         bottom.setSafetyEnabled(false);
-        // bottom.setInverted(true);
+       // bottom.setInverted(true);
 
         top.setSafetyEnabled(false);
     }
 
     public void setSpeed(double speed) {
         bottom.set(speed);
-        top.set(speed);
+        top.set(-speed);
     }
-
+    public void inhaleCargo(){
+        bottom.set(0.5);
+        top.set(0.5);
+    }
     public void ejectCargo() {
         bottom.set(-1);
         top.set(-1);

@@ -33,7 +33,7 @@ public class FollowLine extends Command {
 			return;
 		}
 		
-		double speedNum = 0.5;
+		double speedNum = 0.55;
 
 		active = Photoresistor.getInstance().getVals();
 		// active[0] is the left most photoresistor and active[2] is the right most
@@ -51,7 +51,7 @@ public class FollowLine extends Command {
 			moveSpeed = speedNum;
 			speedNum -= 0.001;
 		} else {
-			moveSpeed = 0.3;
+			moveSpeed = 0.32;
 			speedNum -= 0.001;
 		}
 

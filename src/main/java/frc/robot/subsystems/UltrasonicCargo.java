@@ -28,7 +28,7 @@ public class UltrasonicCargo extends Subsystem{
     private UltrasonicCargo() {
 
         input = new AnalogInput(RobotMap.USPortCargo);
-    }
+    } 
     /**
      * read is a method that does stuff.
      * @return an analog voltage from the ultrasonic analog pin.
