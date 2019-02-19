@@ -26,6 +26,7 @@ public class Robot extends TimedRobot {
 
     m_oi = new OI();
     System.out.println("Camera Connected: " + JeVois.getInstance().isConnected());
+    System.out.println("Hatch Camera Connected: " + JeVoisHatch.getInstance().isConnected());
     //System.out.println("Gyro Connected: " + Gyro.getInstance().isConnected());
     DriveSystem.getInstance().shiftDown();
 

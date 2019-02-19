@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import frc.robot.RobotMap;
 
 public class DriveSystem extends Subsystem {
 
@@ -26,10 +27,10 @@ public class DriveSystem extends Subsystem {
 	private double modifier = 1;
 	private boolean inverted = false;
 
-	WPI_VictorSPX frontRight = new WPI_VictorSPX(6);
-	WPI_VictorSPX backRight = new WPI_VictorSPX(7);
-	WPI_VictorSPX frontLeft = new WPI_VictorSPX(8);
-	WPI_VictorSPX backLeft = new WPI_VictorSPX(9);
+	WPI_VictorSPX frontRight = new WPI_VictorSPX(RobotMap.frontRightMotor);
+	WPI_VictorSPX backRight = new WPI_VictorSPX(RobotMap.backRightMotor);
+	WPI_VictorSPX frontLeft = new WPI_VictorSPX(RobotMap.frontLeftMotor);
+	WPI_VictorSPX backLeft = new WPI_VictorSPX(RobotMap.backLeftMotor);
 
 	private DriveSystem() {
 		frontRight.setInverted(InvertType.None);
@@ -67,11 +68,19 @@ public class DriveSystem extends Subsystem {
 	 * @param y = Direction
 	 */
 	public void arcadeDrive(double x, double y) {
-		drive.arcadeDrive(-1 * modifier * x, y);
+		drive.arcadeDrive(-1 * modifier * x, y, false);
+	}
+
+	public void arcadeDrive(double x, double y, boolean square){
+		drive.arcadeDrive(-1 * modifier * x, y, square);
 	}
 
 	public void startAuto() {
 		drive.setSafetyEnabled(false);
+	}
+
+	public boolean getInverted(){
+		return inverted;
 	}
 
 	public void stop() {
