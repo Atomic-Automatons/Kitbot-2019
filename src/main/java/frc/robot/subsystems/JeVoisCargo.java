@@ -7,22 +7,22 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class JeVois extends Subsystem {
-	private static JeVois instance = null;
+public class JeVoisCargo extends Subsystem {
+	private static JeVoisCargo instance = null;
 	private static SerialPort port;
 
 	private boolean connected = false;
 	private double angle = 0.0;
 	private double size = 0;
 
-	public static JeVois getInstance() {
+	public static JeVoisCargo getInstance() {
 		if (instance == null) {
-			instance = new JeVois();
+			instance = new JeVoisCargo();
 		}
 		return instance;
 	}// end method getInstance()
 
-	private JeVois() {
+	private JeVoisCargo() {
 		try {
 			for (int i = 0; i != 20; i++) {
 				port = new SerialPort(115200, Port.kUSB1);
@@ -70,7 +70,7 @@ public class JeVois extends Subsystem {
 				// System.out.println("data: '" + data + "'");
 				if (data.startsWith("TTM")) {
 					samples++;
-					//System.out.println(data);
+					// System.out.println(data);
 					try {
 						String[] split = data.split(" ");
 						angle += Double.parseDouble(split[1]);

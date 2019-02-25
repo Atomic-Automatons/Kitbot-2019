@@ -29,9 +29,7 @@ public class Turn extends Command {
     @Override
     protected void execute() {
         measuredAngle = NavX.getInstance().getDegrees();
-        double rotSpeed = clamp(speed * (measuredAngle - targetAngle) / targetAngle);
-        System.out.println(rotSpeed);
-        DriveSystem.getInstance().arcadeDrive(0, rotSpeed);
+        DriveSystem.getInstance().arcadeDrive(0, -clamp(speed * (measuredAngle - targetAngle) / measuredAngle));
     }
 
     protected double clamp(double val) {

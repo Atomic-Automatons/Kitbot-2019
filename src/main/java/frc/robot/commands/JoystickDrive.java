@@ -25,7 +25,9 @@ public class JoystickDrive extends Command {
     // The ( -1 * -1 ) in arcade drive exists to explain that the joystick input
     // is backward, but the gearbox inverts the input, so it balances out in ( -1 *
     // -1 )
-    DriveSystem.getInstance().arcadeDrive(-1 * sensitivity * y, sensitivity * x, false);
+    DriveSystem.getInstance().arcadeDrive((-1) * sensitivity * y, sensitivity * x, false);
+
+
   }
 
   @Override

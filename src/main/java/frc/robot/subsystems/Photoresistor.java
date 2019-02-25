@@ -39,8 +39,8 @@ public class Photoresistor extends Subsystem {
     public boolean getRight() {
         return !arrayPhotoresistors[2].get();
     }
-
-    public DigitalInput[] getAnalogInputs() {
+  
+    public DigitalInput[] getInputs() {
         return arrayPhotoresistors;
     }
 

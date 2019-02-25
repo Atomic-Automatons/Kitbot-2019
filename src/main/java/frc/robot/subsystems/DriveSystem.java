@@ -31,6 +31,8 @@ public class DriveSystem extends Subsystem {
 	WPI_VictorSPX backRight = new WPI_VictorSPX(RobotMap.backRightMotor);
 	WPI_VictorSPX frontLeft = new WPI_VictorSPX(RobotMap.frontLeftMotor);
 	WPI_VictorSPX backLeft = new WPI_VictorSPX(RobotMap.backLeftMotor);
+  
+	double sideCalibration = 0;
 
 	private DriveSystem() {
 		frontRight.setInverted(InvertType.None);
@@ -41,9 +43,13 @@ public class DriveSystem extends Subsystem {
 		backLeft.follow(frontLeft);
 		backLeft.setInverted(InvertType.FollowMaster);
 
-		double rampTime = .7;
+		double rampTime = 0.7;
 		frontRight.configOpenloopRamp(rampTime);
 		frontLeft.configOpenloopRamp(rampTime);
+
+		double deadband = 0.15;
+		frontRight.configNeutralDeadband(deadband);
+		frontLeft.configNeutralDeadband(deadband);
 
 		drive = new DifferentialDrive(frontLeft, frontRight);
 		drive.setRightSideInverted(false);
@@ -61,6 +67,11 @@ public class DriveSystem extends Subsystem {
 		gearShift.set(Value.kForward); // Changed in EST
 	}
 
+	public void tankDrive(double left, double right) {
+		frontRight.set(right);
+		frontLeft.set(left);
+	}
+
 	/**
 	 * This Function controls driving using speed and turn speed
 	 * 
@@ -68,11 +79,11 @@ public class DriveSystem extends Subsystem {
 	 * @param y = Direction
 	 */
 	public void arcadeDrive(double x, double y) {
-		drive.arcadeDrive(-1 * modifier * x, y, false);
+		drive.arcadeDrive(-1 * modifier * x, y);
 	}
 
-	public void arcadeDrive(double x, double y, boolean square){
-		drive.arcadeDrive(-1 * modifier * x, y, square);
+	public void arcadeDrive(double x, double y, boolean square) {
+		drive.arcadeDrive(-1 * modifier * x, y, false);
 	}
 
 	public void startAuto() {

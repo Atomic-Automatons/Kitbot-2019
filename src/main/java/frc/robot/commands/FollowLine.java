@@ -7,14 +7,14 @@ import frc.robot.subsystems.Photoresistor;
 
 public class FollowLine extends Command {
 	double turnSpeed = 0; // 0.2
-	double moveSpeed = 0.31; // 0.6
-	double maxDistance = 0.35;// distance from ultrasonic sensor to wall in meters
-	double turnNum = 0.43;// the magnitude of the turning value
+	double moveSpeed = 0.35; // 0.6
+	double maxDistance = 1.45;// distance from ultrasonic sensor to wall in meters
+	double turnNum = 0.47;// the magnitude of the turning value
 	boolean[] active = { false, false, false };
 
 	public FollowLine() {
 		super();
-		//requires(DriveSystem.getInstance());
+		// requires(DriveSystem.getInstance());
 	}
 
 	@Override
@@ -29,11 +29,10 @@ public class FollowLine extends Command {
 
 	@Override
 	protected void execute() {
-		if(isFinished()){
+		if (isFinished()) {
 			return;
 		}
-		
-		double speedNum = 0.55;
+		double speedNum = 0.5;
 
 		active = Photoresistor.getInstance().getVals();
 		// active[0] is the left most photoresistor and active[2] is the right most
@@ -70,6 +69,7 @@ public class FollowLine extends Command {
 
 	@Override
 	protected void end() {
+		System.out.println("Follow line is finsihesd");
 		DriveSystem.getInstance().stop();
 	}
 }

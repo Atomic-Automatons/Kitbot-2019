@@ -20,12 +20,6 @@ public class UpdateSmartDashboard extends Command {
         SmartDashboard.putBoolean("PR middle", Photoresistor.getInstance().getVals()[1]);
         SmartDashboard.putBoolean("PR right", Photoresistor.getInstance().getVals()[2]);
 
-        // SmartDashboard.putNumber("Max Area 1", Camera.getInstance().getMaxArea1());
-        // SmartDashboard.putNumber("Max Area 2", Camera.getInstance().getMaxArea2());
-
-       //SmartDashboard.putNumber("Angle Degrees", Gyro.getInstance().getDegrees());
-        //SmartDashboard.putNumber("Total Angle", Gyro.getInstance().getDegreesTotal());
-
         SmartDashboard.putNumber("Hatch Ultrasonic", (UltrasonicHatch.getInstance().getDistance()));
         SmartDashboard.putNumber("Cargo Ultrasonic", (UltrasonicCargo.getInstance().getDistance()));
         SmartDashboard.putNumber("Camera Angle", JeVois.getInstance().getAngle());
@@ -36,9 +30,15 @@ public class UpdateSmartDashboard extends Command {
         SmartDashboard.putBoolean("Hatch Bottom", HatchControls.getInstance().isDown());
         
         SmartDashboard.putNumber("NavX_Angle", NavX.getInstance().getAngle());
-        SmartDashboard.putBoolean("NavX_Connected", NavX.getInstance().isConnected());
-        SmartDashboard.putNumber("NavX_Pitch", NavX.getInstance().getPitch());
-        SmartDashboard.putNumber("NavX_Yaw", NavX.getInstance().getYaw());
+        SmartDashboard.putNumber("Encoder Left", Encoders.getInstance().getLeftDistance());
+        SmartDashboard.putNumber("Encoder Right", Encoders.getInstance().getRightDistance());
+        // SmartDashboard.putNumber("NavX Distance X",
+        // NavX.getInstance().getDisplacementX() * 39.37);
+        // SmartDashboard.putNumber("NavX Distance Y",
+        // NavX.getInstance().getDisplacementY() * 39.37);
+        // SmartDashboard.putNumber("NavX Distance Z",
+        // NavX.getInstance().getDisplacementZ() * 39.37);
+        SmartDashboard.putNumber("Hatch Ultra Distance", UltrasonicHatch.getInstance().read());
     }
 
     @Override

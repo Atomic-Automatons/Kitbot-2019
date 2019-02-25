@@ -1,7 +1,10 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
@@ -10,15 +13,16 @@ public class Cargo extends Subsystem {
     static private Cargo instance = null;
 
     static public Cargo getInstance() {
-        if (instance == null) 
+        if (instance == null)
             instance = new Cargo();
-        
+
         return instance;
     }
 
-    private Spark bottom = new Spark(RobotMap.bottom);
-    private Spark top = new Spark(RobotMap.top);
-    private Spark upDown = new Spark(RobotMap.launcherElevator);
+    // private WPI_VictorSPX bottom = new WPI_VictorSPX(RobotMap.cargoBottom);
+    private WPI_VictorSPX top = new WPI_VictorSPX(RobotMap.cargoTop);
+    private WPI_VictorSPX bottom = new WPI_VictorSPX(RobotMap.cargoBottom);
+    private WPI_VictorSPX elevator = new WPI_VictorSPX(RobotMap.launcherElevator);
 
     private DigitalInput lowerSwitch = new DigitalInput(RobotMap.cargoSwitchBottom);
     private DigitalInput upperSwitch = new DigitalInput(RobotMap.cargoSwitchTop);
@@ -30,14 +34,13 @@ public class Cargo extends Subsystem {
 
     private Cargo() {
         timer.reset();
-
-        upDown.setInverted(true);
-
         top.setInverted(true);
-        bottom.setSafetyEnabled(false);
-       // bottom.setInverted(true);
+        bottom.setInverted(true);
+        elevator.setInverted(InvertType.InvertMotorOutput);
+        elevator.setNeutralMode(NeutralMode.Brake);
+        // top.setInverted(InvertType.InvertMotorOutput);
 
-        top.setSafetyEnabled(false);
+        top.setInverted(true);     
     }
 
     public void setSpeed(double speed) {
@@ -67,7 +70,7 @@ public class Cargo extends Subsystem {
     }
 
     private double goingUpSpeed = 0.8;
-    private double stall = 0.2; // Find later
+    private double stall = 0.1; // Find later
     private double goingDownSpeed = -0.6;
 
     public void periodic() {
@@ -77,16 +80,16 @@ public class Cargo extends Subsystem {
 
         if (up) {
             if (isUp()) {
-                upDown.set(stall);
+                elevator.set(stall);
             } else {
-                upDown.set(goingUpSpeed);
+                elevator.set(goingUpSpeed);
             }
         } else {
             if (isDown()) {
-                upDown.set(0);
+                elevator.set(0);
                 timer.reset();
             } else {
-                upDown.set(goingDownSpeed);
+                elevator.set(goingDownSpeed);
             }
         }
     }
