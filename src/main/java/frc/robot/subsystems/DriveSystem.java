@@ -5,9 +5,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.PWMVictorSPX;
-import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
@@ -34,6 +31,7 @@ public class DriveSystem extends Subsystem {
 	WPI_VictorSPX backRight = new WPI_VictorSPX(RobotMap.backRightMotor);
 	WPI_VictorSPX frontLeft = new WPI_VictorSPX(RobotMap.frontLeftMotor);
 	WPI_VictorSPX backLeft = new WPI_VictorSPX(RobotMap.backLeftMotor);
+  
 	double sideCalibration = 0;
 
 	private DriveSystem() {
@@ -85,11 +83,15 @@ public class DriveSystem extends Subsystem {
 	}
 
 	public void arcadeDrive(double x, double y, boolean square) {
-		drive.arcadeDrive(-1 * modifier * x, y, square);
+		drive.arcadeDrive(-1 * modifier * x, y, false);
 	}
 
 	public void startAuto() {
 		drive.setSafetyEnabled(false);
+	}
+
+	public boolean getInverted(){
+		return inverted;
 	}
 
 	public void stop() {

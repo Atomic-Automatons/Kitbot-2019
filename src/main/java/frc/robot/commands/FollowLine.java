@@ -1,6 +1,6 @@
 package frc.robot.commands;
 
-import frc.robot.subsystems.UltrasonicCargo;
+import frc.robot.subsystems.UltrasonicHatch;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.DriveSystem;
 import frc.robot.subsystems.Photoresistor;
@@ -19,7 +19,7 @@ public class FollowLine extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return UltrasonicCargo.getInstance().getDistance() < maxDistance;
+		return UltrasonicHatch.getInstance().getDistance() < maxDistance;
 	}
 
 	@Override
@@ -32,7 +32,6 @@ public class FollowLine extends Command {
 		if (isFinished()) {
 			return;
 		}
-
 		double speedNum = 0.5;
 
 		active = Photoresistor.getInstance().getVals();
@@ -51,7 +50,7 @@ public class FollowLine extends Command {
 			moveSpeed = speedNum;
 			speedNum -= 0.001;
 		} else {
-			moveSpeed = 0.3;
+			moveSpeed = 0.32;
 			speedNum -= 0.001;
 		}
 

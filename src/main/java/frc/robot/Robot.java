@@ -24,10 +24,10 @@ public class Robot extends TimedRobot {
     NavX.getInstance();
 
     m_oi = new OI();
+    
     System.out.println("Camera Cargo Connected: " + JeVoisCargo.getInstance().isConnected());
     System.out.println("Camera Hatch Connected: " + JeVoisHatch.getInstance().isConnected());
     System.out.println("NavX Connected: " + NavX.getInstance().isConnected());
-
     DriveSystem.getInstance().shiftDown();
 
     m_chooser.setDefaultOption("Do Nothing", new ExampleCommand());

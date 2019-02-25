@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
@@ -38,7 +39,7 @@ public class Photoresistor extends Subsystem {
     public boolean getRight() {
         return !arrayPhotoresistors[2].get();
     }
-
+  
     public DigitalInput[] getInputs() {
         return arrayPhotoresistors;
     }

@@ -40,15 +40,17 @@ public class Cargo extends Subsystem {
         elevator.setNeutralMode(NeutralMode.Brake);
         // top.setInverted(InvertType.InvertMotorOutput);
 
-        bottom.setSafetyEnabled(false);
-        // bottom.setInverted(true);
+        top.setInverted(true);     
     }
 
     public void setSpeed(double speed) {
         bottom.set(speed);
-        top.set(speed);
+        top.set(-speed);
     }
-
+    public void inhaleCargo(){
+        bottom.set(0.5);
+        top.set(0.5);
+    }
     public void ejectCargo() {
         bottom.set(-1);
         top.set(-1);

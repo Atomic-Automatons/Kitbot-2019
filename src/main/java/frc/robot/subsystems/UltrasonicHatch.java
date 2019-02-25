@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 
@@ -36,6 +37,7 @@ public class UltrasonicHatch extends Subsystem {
     public double read() {
         return input.getVoltage();
     }// hi :)
+  
 
     @Override
     protected void initDefaultCommand() {

@@ -20,6 +20,7 @@ public class NavX extends Subsystem {
 	}
 
 	public boolean isConnected() {
+		
 		return ahrs.isConnected();
 	}
 

@@ -20,15 +20,15 @@ public class UpdateSmartDashboard extends Command {
         SmartDashboard.putBoolean("PR middle", Photoresistor.getInstance().getVals()[1]);
         SmartDashboard.putBoolean("PR right", Photoresistor.getInstance().getVals()[2]);
 
-        // SmartDashboard.putNumber("Ultrasonic distance",
-        // (UltrasonicCargo.getInstance().getDistance()));
-        // SmartDashboard.putNumber("Camera Angle",
-        // JeVoisCargo.getInstance().getAngle());
+        SmartDashboard.putNumber("Hatch Ultrasonic", (UltrasonicHatch.getInstance().getDistance()));
+        SmartDashboard.putNumber("Cargo Ultrasonic", (UltrasonicCargo.getInstance().getDistance()));
+        SmartDashboard.putNumber("Camera Angle", JeVois.getInstance().getAngle());
 
         SmartDashboard.putBoolean("Grabber bottom", Cargo.getInstance().isDown());
         SmartDashboard.putBoolean("Grabber top", Cargo.getInstance().isUp());
         SmartDashboard.putBoolean("Hatch Top", HatchControls.getInstance().isUp());
         SmartDashboard.putBoolean("Hatch Bottom", HatchControls.getInstance().isDown());
+        
         SmartDashboard.putNumber("NavX_Angle", NavX.getInstance().getAngle());
         SmartDashboard.putNumber("Encoder Left", Encoders.getInstance().getLeftDistance());
         SmartDashboard.putNumber("Encoder Right", Encoders.getInstance().getRightDistance());
