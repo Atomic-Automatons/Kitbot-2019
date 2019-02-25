@@ -7,25 +7,25 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class JeVois extends Subsystem {
-	private static JeVois instance = null;
+public class JeVoisHatch extends Subsystem {
+	private static JeVoisHatch instance = null;
 	private static SerialPort port;
 
 	private boolean connected = false;
 	private double angle = 0.0;
 	private double size = 0;
 
-	public static JeVois getInstance() {
+	public static JeVoisHatch getInstance() {
 		if (instance == null) {
-			instance = new JeVois();
+			instance = new JeVoisHatch();
 		}
 		return instance;
 	}// end method getInstance()
 
-	private JeVois() {
+	private JeVoisHatch() {
 		try {
 			for (int i = 0; i != 20; i++) {
-				port = new SerialPort(115200, Port.kUSB1);
+				port = new SerialPort(115200, Port.kUSB2);
 			}
 
 			if (port != null) {
@@ -36,7 +36,7 @@ public class JeVois extends Subsystem {
 			e.printStackTrace();
 		}
 
-		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(1);
 		camera.setResolution(320, 240);
 		camera.setFPS(30);
 		camera.setPixelFormat(PixelFormat.kYUYV);

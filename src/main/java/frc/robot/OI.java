@@ -16,8 +16,8 @@ public class OI {
 	public static Button invertDriveBase = new JoystickButton(stick, 8);
 
 	// Cargo
-	public static Button inhale = new JoystickButton(stick, 9);
-	public static Button exhale = new JoystickButton(stick, 7);
+	public static Button inhale = new JoystickButton(stick, 7);
+	public static Button exhale = new JoystickButton(stick, 9);
 	public static Button cargoElevator = new JoystickButton(stick, 11);
 
 	// Autonomous

@@ -3,7 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 
 import frc.robot.subsystems.DriveSystem;
-import frc.robot.subsystems.Gyro;
+import frc.robot.subsystems.NavX;
 
 public class Turn extends Command {
     private double measuredAngle;
@@ -21,13 +21,13 @@ public class Turn extends Command {
 
     @Override
     protected void initialize() {
-        Gyro.getInstance().reset();
+        NavX.getInstance().reset();
         DriveSystem.getInstance().startAuto();
     }
 
     @Override
     protected void execute() {
-        measuredAngle = Gyro.getInstance().getDegrees();
+        measuredAngle = NavX.getInstance().getDegrees();
         DriveSystem.getInstance().arcadeDrive(0, -clamp(speed * (measuredAngle - targetAngle) / measuredAngle));
     }
 

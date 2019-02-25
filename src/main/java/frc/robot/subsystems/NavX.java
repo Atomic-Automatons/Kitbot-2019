@@ -39,6 +39,10 @@ public class NavX extends Subsystem {
 		return ahrs.getAngle() % 360;
 	}
 
+	public double getDegrees() {
+		return ahrs.getAngle() % 360;
+	}
+
 	// Returns the current yaw value (in degrees, from -180 to 180) reported by the
 	// sensor.
 	public double getYaw() {

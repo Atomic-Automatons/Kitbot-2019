@@ -3,30 +3,31 @@ package frc.robot;
 public class RobotMap {
   // Drivebase
     // Left motor ports
-    public static int backLeftMotor = 9;
-    public static int frontLeftMotor = 8;// 98 76
+    public static int backLeftMotor = 7;
+    public static int frontLeftMotor = 6;// 98 76
     
     // Right motor ports 
-    public static int backRightMotor = 7;
-    public static int frontRightMotor = 6;
+    public static int backRightMotor = 9;
+    public static int frontRightMotor = 8;
 
   // Launcher Motor Ports
   public static int cargoBottom = 3;
-  public static int top = 4;
-  public static int launcherElevator = 2;
+  public static int cargoTop = 4;
+  public static int launcherElevator = 1;
 
   // Hatch Motor Ports
   public static int upMotor = 0;
-  public static int leverMotor = 1;
+  public static int leverMotor = 2;
 
   // Analog ports
-  public static int USPort = 3;
-  public static int[] PRPorts = { 0, 1, 2 };
+  public static int UltraSonicHatch = 1;
+  public static int UltraSonicCargo = 0;
+  public static int[] PRPorts = { 12, 10, 11 }; //MXP 0, 1 ,2
 
   // Digital ports
     // Limit Switches
     public static int cargoSwitchTop = 6;
-    public static int cargoSwitchBottom = 7;
+    public static int cargoSwitchBottom = 18; //MXP 4
     public static int hatchSwitchTop = 4;
     public static int hatchSwitchBottom = 5;
 

@@ -1,19 +1,19 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-
 public class HatchControls extends Subsystem {
     private static HatchControls instance;
 
-    public Spark upMotor = new Spark(RobotMap.upMotor);
-    public Spark leverMotor = new Spark(RobotMap.leverMotor);;
+    public WPI_VictorSPX upMotor = new WPI_VictorSPX(RobotMap.upMotor);
+    public WPI_VictorSPX leverMotor = new WPI_VictorSPX(RobotMap.leverMotor);;
 
     private DigitalInput limitSwitchUp = new DigitalInput(RobotMap.hatchSwitchTop);
     private DigitalInput limitSwitchDown = new DigitalInput(RobotMap.hatchSwitchBottom);
@@ -23,9 +23,9 @@ public class HatchControls extends Subsystem {
 
     private boolean up = false;
 
-    private double goingUpSpeed = 0.7;// 1
-    private double stall = 0.2;
-    private double goingDownSpeed = -0.7;
+    private double goingUpSpeed = 0.7;//was .7 1
+    private double stall = 0.05;//was 0.2
+    private double goingDownSpeed = -0.2; //was .6
 
     private double maxTime = 45;
     private Timer upTimer = new Timer();

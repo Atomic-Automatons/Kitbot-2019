@@ -30,23 +30,28 @@ public class DriveSystem extends Subsystem {
 	private double modifier = 1;
 	private boolean inverted = false;
 
-	WPI_VictorSPX frontRight = new WPI_VictorSPX(1);
-	WPI_VictorSPX backRight = new WPI_VictorSPX(2);
-	WPI_VictorSPX frontLeft = new WPI_VictorSPX(3);
-	WPI_VictorSPX backLeft = new WPI_VictorSPX(4);
+	WPI_VictorSPX frontRight = new WPI_VictorSPX(RobotMap.frontRightMotor);
+	WPI_VictorSPX backRight = new WPI_VictorSPX(RobotMap.backRightMotor);
+	WPI_VictorSPX frontLeft = new WPI_VictorSPX(RobotMap.frontLeftMotor);
+	WPI_VictorSPX backLeft = new WPI_VictorSPX(RobotMap.backLeftMotor);
+	double sideCalibration = 0;
 
 	private DriveSystem() {
-		frontRight.setInverted(InvertType.InvertMotorOutput);
+		frontRight.setInverted(InvertType.None);
 		backRight.follow(frontRight);
 		backRight.setInverted(InvertType.FollowMaster);
 
-		frontLeft.setInverted(InvertType.None);
+		frontLeft.setInverted(InvertType.InvertMotorOutput);
 		backLeft.follow(frontLeft);
 		backLeft.setInverted(InvertType.FollowMaster);
 
-		double rampTime = .5;
+		double rampTime = 0.7;
 		frontRight.configOpenloopRamp(rampTime);
 		frontLeft.configOpenloopRamp(rampTime);
+
+		double deadband = 0.15;
+		frontRight.configNeutralDeadband(deadband);
+		frontLeft.configNeutralDeadband(deadband);
 
 		drive = new DifferentialDrive(frontLeft, frontRight);
 		drive.setRightSideInverted(false);
@@ -64,6 +69,11 @@ public class DriveSystem extends Subsystem {
 		gearShift.set(Value.kForward); // Changed in EST
 	}
 
+	public void tankDrive(double left, double right) {
+		frontRight.set(right);
+		frontLeft.set(left);
+	}
+
 	/**
 	 * This Function controls driving using speed and turn speed
 	 * 
@@ -71,7 +81,11 @@ public class DriveSystem extends Subsystem {
 	 * @param y = Direction
 	 */
 	public void arcadeDrive(double x, double y) {
-		drive.arcadeDrive(modifier * x, y);
+		drive.arcadeDrive(-1 * modifier * x, y);
+	}
+
+	public void arcadeDrive(double x, double y, boolean square) {
+		drive.arcadeDrive(-1 * modifier * x, y, square);
 	}
 
 	public void startAuto() {

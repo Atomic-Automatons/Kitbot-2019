@@ -1,22 +1,22 @@
 package frc.robot.commands;
 
-import frc.robot.subsystems.Ultrasonic;
+import frc.robot.subsystems.UltrasonicCargo;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.DriveSystem;
-import frc.robot.subsystems.JeVois;
+import frc.robot.subsystems.JeVoisCargo;
 
 public class CameraTurn extends Command {
     double maxDistance = 0.35;
 
     public CameraTurn() {
         super();
-        //requires(DriveSystem.getInstance());
+        // requires(DriveSystem.getInstance());
     }
 
     @Override
     protected boolean isFinished() {
         // return JeVois.getInstance().getSize() > distance;
-        return Ultrasonic.getInstance().getDistance() < maxDistance;
+        return UltrasonicCargo.getInstance().getDistance() < maxDistance;
     }
 
     @Override
@@ -32,8 +32,8 @@ public class CameraTurn extends Command {
     @Override
     protected void execute() {
         System.out.println("CAMERA TURN");
-        double center = JeVois.getInstance().getAngle();
-        double move = JeVois.getInstance().getSize();
+        double center = JeVoisCargo.getInstance().getAngle();
+        double move = JeVoisCargo.getInstance().getSize();
         double moveSpeed = 0;
         /*
          * if (Math.abs(center) > 0.07) { double val = clamp(center);
