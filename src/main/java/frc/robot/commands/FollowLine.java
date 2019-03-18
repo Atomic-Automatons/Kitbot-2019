@@ -7,9 +7,9 @@ import frc.robot.subsystems.Photoresistor;
 
 public class FollowLine extends Command {
 	double turnSpeed = 0; // 0.2
-	double moveSpeed = 0.35; // 0.6
-	double maxDistance = 1.45;// distance from ultrasonic sensor to wall in meters
-	double turnNum = 0.47;// the magnitude of the turning value
+	double moveSpeed = 0.39; // 0.6
+	public static double maxDistance = 293.8;// distance from ultrasonic sensor to wall in meters
+	double turnNum = 0.53;// the magnitude of the turning value
 	boolean[] active = { false, false, false };
 
 	public FollowLine() {
@@ -39,20 +39,23 @@ public class FollowLine extends Command {
 		// photoresistor
 
 		if (active[0]) {
-			turnSpeed = -turnNum;
+			turnSpeed = -turnNum;//-turnNum;
 		} else if (active[2]) {
-			turnSpeed = turnNum;
+			turnSpeed = turnNum;//turnNum;
 		} else {
 			turnSpeed = 0.0;
 		}
-
+		if((UltrasonicHatch.getInstance().getDistance() < maxDistance && active[0]) || (active[2] && UltrasonicHatch.getInstance().getDistance() < maxDistance)){
+			moveSpeed=-speedNum;
+		}
 		if (active[1]) {
 			moveSpeed = speedNum;
-			speedNum -= 0.001;
+			speedNum -= 0.004;
 		} else {
 			moveSpeed = 0.32;
-			speedNum -= 0.001;
+			speedNum -= 0.004;
 		}
+		
 
 		if (!active[0] && !active[1] && !active[2]) {
 			// moveSpeed = 0.4;

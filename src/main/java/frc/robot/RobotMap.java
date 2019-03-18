@@ -22,7 +22,7 @@ public class RobotMap {
   // Analog ports
   public static int UltraSonicHatch = 1;
   public static int UltraSonicCargo = 0;
-  public static int[] PRPorts = { 12, 10, 11 }; //MXP 0, 1 ,2
+  public static int[] PRPorts = { 11, 10, 12 }; //MXP 0, 1 ,2
 
   // Digital ports
     // Limit Switches

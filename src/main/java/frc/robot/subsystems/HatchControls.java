@@ -23,9 +23,9 @@ public class HatchControls extends Subsystem {
 
     private boolean up = false;
 
-    private double goingUpSpeed = 0.7;//was .7 1
-    private double stall = 0.05;//was 0.2
-    private double goingDownSpeed = -0.2; //was .6
+    private double goingUpSpeed = 0.7;// was .7 1
+    private double stall = 0.05;// was 0.2
+    private double goingDownSpeed = -0.2; // was .6
 
     private double maxTime = 45;
     private Timer upTimer = new Timer();

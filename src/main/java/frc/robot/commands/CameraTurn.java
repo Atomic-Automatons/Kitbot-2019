@@ -5,20 +5,18 @@ import frc.robot.subsystems.UltrasonicHatch;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.DriveSystem;
 import frc.robot.subsystems.JeVoisCargo;
+import frc.robot.subsystems.JeVoisHatch;
 
 public class CameraTurn extends Command {
-    double maxDistance = 0.35;
-
     public CameraTurn() {
         super();
-        // requires(DriveSystem.getInstance());
     }
 
     @Override
     protected boolean isFinished() {
+        return false;
         // return JeVois.getInstance().getSize() > distance;
-       return UltrasonicHatch.getInstance().getDistance() < maxDistance;
-
+        //return UltrasonicHatch.getInstance().getDistance() < 320;
     }
 
     @Override
@@ -27,25 +25,20 @@ public class CameraTurn extends Command {
     }
 
     int timer = 0;
-    double speed = 0.41;
+    double speed = 0.5;// 4.1
     double deadband = 1.5;
     double distance = 4000;// 4300
 
     @Override
     protected void execute() {
-        System.out.println("CAMERA TURN");
-        double center = JeVoisCargo.getInstance().getAngle();
-        double move = JeVoisCargo.getInstance().getSize();
-        double moveSpeed = 0;
+        double center = JeVoisHatch.getInstance().getAngle();
+        double moveSpeed = .41;
         /*
          * if (Math.abs(center) > 0.07) { double val = clamp(center);
          * DriveSystem.getInstance().arcadeDrive(0, val); } else {
          * DriveSystem.getInstance().arcadeDrive(0, 0); }
          */
-        if (move <= distance && move != 0) {
-            moveSpeed = speed;
-        }
-
+        System.out.println(center);
         if (Math.abs(center) >= deadband) {
             DriveSystem.getInstance().arcadeDrive(moveSpeed, clamp((center / 20)));
         } else {
@@ -54,8 +47,8 @@ public class CameraTurn extends Command {
 
     }
 
-    double upper = 0.5;
-    double lower = 0.41;
+    double upper = 0.6;// .5
+    double lower = 0.5;// .41
 
     protected double clamp(double val) {
         if (Math.abs(val) > upper) {
