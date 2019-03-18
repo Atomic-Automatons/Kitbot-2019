@@ -19,7 +19,6 @@ public class Cargo extends Subsystem {
         return instance;
     }
 
-    // private WPI_VictorSPX bottom = new WPI_VictorSPX(RobotMap.cargoBottom);
     private WPI_VictorSPX top = new WPI_VictorSPX(RobotMap.cargoTop);
     private WPI_VictorSPX bottom = new WPI_VictorSPX(RobotMap.cargoBottom);
     private WPI_VictorSPX elevator = new WPI_VictorSPX(RobotMap.launcherElevator);
@@ -40,17 +39,19 @@ public class Cargo extends Subsystem {
         elevator.setNeutralMode(NeutralMode.Brake);
         // top.setInverted(InvertType.InvertMotorOutput);
 
-        top.setInverted(true);     
+        top.setInverted(true);
     }
 
     public void setSpeed(double speed) {
         bottom.set(speed);
         top.set(-speed);
     }
-    public void inhaleCargo(){
+
+    public void inhaleCargo() {
         bottom.set(0.5);
         top.set(0.5);
     }
+
     public void ejectCargo() {
         bottom.set(-1);
         top.set(-1);

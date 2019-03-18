@@ -14,41 +14,35 @@ public class CameraTurn extends Command {
 
     @Override
     protected boolean isFinished() {
-        return false;
-        // return JeVois.getInstance().getSize() > distance;
-        //return UltrasonicHatch.getInstance().getDistance() < 320;
+        return UltrasonicCargo.getInstance().getDistance() < 800;
     }
 
     @Override
     protected void initialize() {
         DriveSystem.getInstance().startAuto();
+        DriveSystem.getInstance().enableInverted();
     }
 
-    int timer = 0;
-    double speed = 0.5;// 4.1
     double deadband = 1.5;
-    double distance = 4000;// 4300
 
     @Override
     protected void execute() {
-        double center = JeVoisHatch.getInstance().getAngle();
-        double moveSpeed = .41;
+        double center = JeVoisCargo.getInstance().getAngle();
+        double moveSpeed = .5; // .41
         /*
          * if (Math.abs(center) > 0.07) { double val = clamp(center);
          * DriveSystem.getInstance().arcadeDrive(0, val); } else {
          * DriveSystem.getInstance().arcadeDrive(0, 0); }
          */
-        System.out.println(center);
         if (Math.abs(center) >= deadband) {
-            DriveSystem.getInstance().arcadeDrive(moveSpeed, clamp((center / 20)));
+            DriveSystem.getInstance().arcadeDrive(moveSpeed, clamp(center / 20));
         } else {
             DriveSystem.getInstance().arcadeDrive(moveSpeed, 0);
         }
-
     }
 
     double upper = 0.6;// .5
-    double lower = 0.5;// .41
+    double lower = 0.1;// .41
 
     protected double clamp(double val) {
         if (Math.abs(val) > upper) {

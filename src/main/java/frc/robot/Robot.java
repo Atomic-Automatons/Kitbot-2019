@@ -20,9 +20,6 @@ public class Robot extends TimedRobot {
   Command m_teleopCommand = new JoystickDrive();
 
   SendableChooser<Command> m_chooser = new SendableChooser<>();
-  SendableChooser<Integer> m_cameraChooser = new SendableChooser<>();
-
-  private int m_currentCamera = 1;
 
   @Override
   public void robotInit() {
@@ -45,23 +42,6 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("MoveHatchUp", new ToggleHatchElevator());
     SmartDashboard.putData("Auto mode", m_chooser);
 
-    // CameraStream.getInstance().addDevice(0,
-    // JeVoisHatch.getInstance().getCamera());
-    // CameraStream.getInstance().addDevice(1,
-    // JeVoisCargo.getInstance().getCamera());
-
-    m_cameraChooser.setDefaultOption("Hatch", 1);
-    m_cameraChooser.addOption("Cargo", 2);
-    SmartDashboard.putData("Camera", m_cameraChooser);
-
-    CameraStream.getInstance().setActive(1);
-    // CameraStream.getInstance().getServer().setSource(JeVoisCargo.getInstance().getCamera());
-
-    // CameraStream.getInstance().getServer().setSource(jeVois.getCamera());
-    // CameraServer.getInstance().addCamera(JeVoisCargo.getInstance().getCamera());
-    // MjpegServer hatchServer = CameraServer.getInstance().addServer("Hatch");
-    // hatchServer.setSource(JeVoisCargo.getInstance().getCamera());
-
     m_dashboardCommand.start();
   }
 
@@ -81,11 +61,6 @@ public class Robot extends TimedRobot {
      * System.out.println("M: " + Photoresistor.getInstance().getMiddle());
      * System.out.println("R: " + Photoresistor.getInstance().getRight());
      */
-    if (m_currentCamera != m_cameraChooser.getSelected()) {
-      // CameraStream.getInstance().setActive(m_cameraChooser.getSelected());
-      // m_currentCamera = m_cameraChooser.getSelected();
-    }
-    // CameraStream.getInstance().setActive(m_cameraChooser.getSelected());
   }
 
   /**
@@ -144,7 +119,7 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    //CameraStream.getInstance().setActive(1);
+    // CameraStream.getInstance().setActive(1);
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }

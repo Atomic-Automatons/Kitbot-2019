@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.*;
+import frc.robot.commands.auto.*;
 
 public class OI {
 	static int joystickPort = 0;
@@ -16,6 +17,7 @@ public class OI {
 	public static Button invertDriveBase = new JoystickButton(stick, 8);
 
 	// Cargo
+	public static Button completeCargo = new JoystickButton(stick, 4);
 	public static Button inhale = new JoystickButton(stick, 7);
 	public static Button exhale = new JoystickButton(stick, 9);
 	public static Button cargoElevator = new JoystickButton(stick, 11);
@@ -37,6 +39,7 @@ public class OI {
 		invertDriveBase.whenPressed(new ToggleInvertDriveSystem());
 
 		// Cargo
+		completeCargo.whileHeld(new CompleteCargo());
 		inhale.whileHeld(new CargoInhale());
 		exhale.whileHeld(new EjectCargo());
 		cargoElevator.whenPressed(new ToggleCargoElevator());

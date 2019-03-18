@@ -20,8 +20,6 @@ public class UpdateSmartDashboard extends Command {
         SmartDashboard.putBoolean("PR middle", Photoresistor.getInstance().getVals()[1]);
         SmartDashboard.putBoolean("PR right", Photoresistor.getInstance().getVals()[2]);
 
-        // SmartDashboard.putNumber("Camera Angle", JeVois.getInstance().getAngle());
-
         SmartDashboard.putBoolean("Grabber bottom", Cargo.getInstance().isDown());
         SmartDashboard.putBoolean("Grabber top", Cargo.getInstance().isUp());
 
@@ -41,6 +39,7 @@ public class UpdateSmartDashboard extends Command {
         // NavX.getInstance().getDisplacementZ() * 39.37);
         updateUltra();
         SmartDashboard.putNumber("Jevois Hatch Angle", JeVoisHatch.getInstance().getAngle());
+        SmartDashboard.putNumber("Jevois Cargo Angle", JeVoisCargo.getInstance().getAngle());
         SmartDashboard.putNumber("JeVois Cargo Sample #", JeVoisCargo.getInstance().getSamples());
         SmartDashboard.putNumber("JeVois Hatch Sample #", JeVoisHatch.getInstance().getSamples());
     }

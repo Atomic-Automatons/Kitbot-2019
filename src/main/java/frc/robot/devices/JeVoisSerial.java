@@ -6,15 +6,15 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 
 public class JeVoisSerial {
+    private Port type;
     private static SerialPort port;
-    private static UsbCamera camera;
     private static boolean connected = false;
 
     private double angle = 0.0;
     private double size = 0.0;
     private int samples = 0;
 
-    public JeVoisSerial(Port type, int cameraNumber) {
+    public JeVoisSerial(Port type) {
         try {
             port = new SerialPort(115200, type);
             if (port != null) {
@@ -24,19 +24,11 @@ public class JeVoisSerial {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        camera = new UsbCamera("Jevois " + cameraNumber, cameraNumber);
-        // camera.setResolution(320, 240);
-        camera.setFPS(5);
-        camera.setPixelFormat(PixelFormat.kMJPEG);
+        this.type = type;
     }
 
     public boolean isConnected() {
         return connected;
-    }
-
-    public UsbCamera getCamera() {
-        return camera;
     }
 
     public void updateData() {
@@ -52,7 +44,7 @@ public class JeVoisSerial {
         int samples = 0;
         while (port.getBytesReceived() > 0) {
             String data = port.readString().trim();
-            System.out.println(camera.getName() + " " + data);
+            // System.out.println(type.name() + " " + data);
             if (data.length() > 0) {
                 if (data.startsWith("TTM")) {
                     samples++;
@@ -68,7 +60,6 @@ public class JeVoisSerial {
                 } else {
                     // System.out.println("data: '" + data + "'");
                 }
-
             } else {
                 System.out.println("data: is no bueno, is null");
             }
@@ -77,7 +68,7 @@ public class JeVoisSerial {
         if (samples != 0) {
             this.angle = angle / samples;
             this.size = size / samples;
-            System.out.println("Angle: " + angle);
+            //System.out.println("Angle: " + angle);
         }
     }
 
@@ -86,7 +77,7 @@ public class JeVoisSerial {
     }
 
     public double getSize() {
-        return angle;
+        return size;
     }
 
     public int getSamples() {

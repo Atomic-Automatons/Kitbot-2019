@@ -1,8 +1,5 @@
 package frc.robot.subsystems;
 
-import edu.wpi.cscore.MjpegServer;
-import edu.wpi.cscore.UsbCamera;
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.devices.JeVoisSerial;
@@ -19,12 +16,7 @@ public class JeVoisHatch extends Subsystem {
 	}
 
 	private JeVoisHatch() {
-		jeVois = new JeVoisSerial(Port.kUSB1, 0);
-		CameraStream.getInstance().addDevice(2, jeVois.getCamera());
-	}
-
-	public UsbCamera getCamera() {
-		return jeVois.getCamera();
+		jeVois = new JeVoisSerial(Port.kUSB1);
 	}
 
 	public boolean isConnected() {
@@ -34,7 +26,6 @@ public class JeVoisHatch extends Subsystem {
 	@Override
 	public void periodic() {
 		jeVois.updateData();
-		//System.out.println(jeVois.getAngle());
 	}
 
 	@Override
