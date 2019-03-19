@@ -8,7 +8,7 @@ import frc.robot.subsystems.NavX;
 public class Turn extends Command {
     private double measuredAngle;
     private double targetAngle;
-    private double speed = 0.5; // 0.55
+    private double speed = 0.6; // 0.5
     private double tolerance = 0.1;
 
     public Turn(double angle) {

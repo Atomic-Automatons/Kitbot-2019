@@ -40,7 +40,7 @@ public class Encoders extends Subsystem {
     public double getRightDistance() {
         return right.getDistance();
     }
-
+/**inches*/
     public double getDistance() {
         return (left.getDistance() + right.getDistance()) / 2;
     }
