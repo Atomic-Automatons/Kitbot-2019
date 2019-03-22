@@ -7,6 +7,7 @@ public class ShiftUp extends InstantCommand {
 	@Override
 	protected void initialize() {
 		DriveSystem.getInstance().shiftUp();
+		System.out.println("Shifting Up");
 	}
 
 }

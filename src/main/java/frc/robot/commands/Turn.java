@@ -47,5 +47,6 @@ public class Turn extends Command {
     @Override
     protected void end() {
         DriveSystem.getInstance().stop();
+        NavX.getInstance().reset();
     }
 }

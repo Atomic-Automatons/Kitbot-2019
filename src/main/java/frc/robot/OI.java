@@ -26,7 +26,7 @@ public class OI {
 	public static Button followLine = new JoystickButton(stick, 10);
 	public static Button followCamera = new JoystickButton(stick, 12);
 	/* public static Button beyblade = new JoystickButton(stick, 8); */
-
+	// public static Button straightTurn = new JoystickButton(stick, 4);
 	// Hatch
 	public static Button toggleHatchCylinder = new JoystickButton(stick, 1);
 	public static Button toggleLever = new JoystickButton(stick, 2);
@@ -48,6 +48,7 @@ public class OI {
 		followLine.whileHeld(new FollowLine());
 		followCamera.whileHeld(new CameraTurn());
 		/* beyblade.whileHeld(new Beyblade()); */
+		// straightTurn.whileHeld(new StraightTurn());
 
 		// Hatch
 		toggleHatchCylinder.whenPressed(new ToggleGrabber());

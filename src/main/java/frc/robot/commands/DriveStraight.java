@@ -23,15 +23,15 @@ public class DriveStraight extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		System.out.println("Drive Straight init");
 		NavX.getInstance().reset();
 		Encoders.getInstance().reset();
         DriveSystem.getInstance().startAuto();
 	}
 
-	double speedslower = 2.5;
+	double speedslower = 1.5;
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		System.out.println("Tryignt to move");
 		DriveSystem.getInstance().arcadeDrive(clamp(((this.distance-Encoders.getInstance().getRightDistance())/(this.distance*speedslower)*speed)),
 		 -clamp(NavX.getInstance().getAngle() * kP));
 	}
@@ -56,6 +56,7 @@ public class DriveStraight extends Command {
 	protected void end() {
 		System.out.println("Straight drive done");
 		DriveSystem.getInstance().stop();
+		Encoders.getInstance().reset();
 	}
 
 	// Called when another command which requires one or more of the same

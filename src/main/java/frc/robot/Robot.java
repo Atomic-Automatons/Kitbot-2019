@@ -1,6 +1,8 @@
 package frc.robot;
 
 import edu.wpi.cscore.MjpegServer;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cameraserver.CameraServerShared;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -10,14 +12,15 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.*;
+import frc.robot.commands.auto.*;
 import frc.robot.subsystems.*;
 
 public class Robot extends TimedRobot {
   public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
   public static OI m_oi;
   Command m_dashboardCommand = new UpdateSmartDashboard();
-  Command m_autonomousCommand;// = new CameraTurn();
-  Command m_teleopCommand = new JoystickDrive();
+  Command m_autonomousCommand = new JoystickDrive();// = new CameraTurn();
+  public static Command m_teleopCommand = new JoystickDrive();
 
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -28,20 +31,28 @@ public class Robot extends TimedRobot {
 
     m_oi = new OI();
 
+    MjpegServer server = CameraServer.getInstance().addServer("Camera");
+    UsbCamera cam = new UsbCamera("Cam0", 0);
+    cam.setPixelFormat(PixelFormat.kYUYV);
+    server.setSource(cam);
+
     System.out.println("Camera Cargo Connected: " + JeVoisCargo.getInstance().isConnected());
     System.out.println("Camera Hatch Connected: " + JeVoisHatch.getInstance().isConnected());
 
     System.out.println("NavX Connected: " + NavX.getInstance().isConnected());
     DriveSystem.getInstance().shiftDown();
 
-    m_chooser.setDefaultOption("Do Nothing", new ExampleCommand());
-    m_chooser.addOption("Turn 90", new Turn(90));
-    m_chooser.addOption("Follow Line", new FollowLine());
-    m_chooser.addOption("Camera Turn", new CameraTurn());
-    m_chooser.addOption("Extend Hatch Grabber", new ToggleHatchLever());
-    m_chooser.addOption("MoveHatchUp", new ToggleHatchElevator());
-    SmartDashboard.putData("Auto mode", m_chooser);
-
+    /*
+     * m_chooser.setDefaultOption("Lever down and move straight", new AutoStart());
+     * m_chooser.addOption("Turn 90", new Turn(90));
+     * m_chooser.addOption("Drive Straight", new DriveStraight(24.0, 0.7));
+     * m_chooser.addOption("Follow Line", new FollowLine());
+     * m_chooser.addOption("Camera Turn", new CameraTurn());
+     * m_chooser.addOption("Extend Hatch Grabber", new ToggleHatchLever());
+     * m_chooser.addOption("MoveHatchUp", new ToggleHatchElevator());
+     * 
+     * SmartDashboard.putData("Auto mode", m_chooser);
+     */
     m_dashboardCommand.start();
   }
 
@@ -92,7 +103,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_chooser.getSelected();
+    // m_autonomousCommand = m_chooser.getSelected();
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");

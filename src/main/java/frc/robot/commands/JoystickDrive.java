@@ -8,7 +8,7 @@ import frc.robot.OI;
 
 public class JoystickDrive extends Command {
   public JoystickDrive() {
-    requires(DriveSystem.getInstance());
+    // requires(DriveSystem.getInstance());
   }
 
   @Override
@@ -26,7 +26,6 @@ public class JoystickDrive extends Command {
     // is backward, but the gearbox inverts the input, so it balances out in ( -1 *
     // -1 )
     DriveSystem.getInstance().arcadeDrive((-1) * sensitivity * y, sensitivity * x, false);
-
 
   }
 

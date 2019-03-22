@@ -1,7 +1,9 @@
 package frc.robot.devices;
 
+import edu.wpi.cscore.MjpegServer;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoMode.PixelFormat;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 
@@ -68,7 +70,7 @@ public class JeVoisSerial {
         if (samples != 0) {
             this.angle = angle / samples;
             this.size = size / samples;
-            //System.out.println("Angle: " + angle);
+            // System.out.println("Angle: " + angle);
         }
     }
 

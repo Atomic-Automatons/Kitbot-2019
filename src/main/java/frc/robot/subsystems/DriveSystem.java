@@ -31,7 +31,7 @@ public class DriveSystem extends Subsystem {
 	WPI_VictorSPX backRight = new WPI_VictorSPX(RobotMap.backRightMotor);
 	WPI_VictorSPX frontLeft = new WPI_VictorSPX(RobotMap.frontLeftMotor);
 	WPI_VictorSPX backLeft = new WPI_VictorSPX(RobotMap.backLeftMotor);
-  
+
 	double sideCalibration = 0;
 
 	private DriveSystem() {
@@ -55,16 +55,15 @@ public class DriveSystem extends Subsystem {
 		drive.setRightSideInverted(false);
 		// drive.set
 		drive.setSafetyEnabled(false);
-
 		shiftUp();
 	}
 
 	public void shiftUp() {
-		gearShift.set(Value.kReverse); // Changed in EST
+		gearShift.set(Value.kForward); // Changed in EST
 	}
 
 	public void shiftDown() {
-		gearShift.set(Value.kForward); // Changed in EST
+		gearShift.set(Value.kReverse); // Changed in EST
 	}
 
 	public void tankDrive(double left, double right) {
@@ -90,7 +89,7 @@ public class DriveSystem extends Subsystem {
 		drive.setSafetyEnabled(false);
 	}
 
-	public boolean getInverted(){
+	public boolean getInverted() {
 		return inverted;
 	}
 

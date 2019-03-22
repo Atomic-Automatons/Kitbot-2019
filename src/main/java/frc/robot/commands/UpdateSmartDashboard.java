@@ -38,17 +38,26 @@ public class UpdateSmartDashboard extends Command {
         // SmartDashboard.putNumber("NavX Distance Z",
         // NavX.getInstance().getDisplacementZ() * 39.37);
         updateUltra();
-        SmartDashboard.putNumber("Jevois Hatch Angle", JeVoisHatch.getInstance().getAngle());
+        updateCameras();
+    }
+
+    protected void updateCameras() {
+        // SmartDashboard.putNumber("Jevois Hatch Angle",
+        // JeVoisHatch.getInstance().getAngle());
         SmartDashboard.putNumber("Jevois Cargo Angle", JeVoisCargo.getInstance().getAngle());
-        SmartDashboard.putNumber("JeVois Cargo Sample #", JeVoisCargo.getInstance().getSamples());
-        SmartDashboard.putNumber("JeVois Hatch Sample #", JeVoisHatch.getInstance().getSamples());
+        // SmartDashboard.putNumber("JeVois Cargo Sample #",
+        // JeVoisCargo.getInstance().getSamples());
+        // SmartDashboard.putNumber("JeVois Hatch Sample #",
+        // JeVoisHatch.getInstance().getSamples());
     }
 
     protected void updateUltra() {
-        SmartDashboard.putNumber("Hatch Ultra Raw", UltrasonicHatch.getInstance().read());
-        SmartDashboard.putNumber("Hatch Ultra Distance", UltrasonicHatch.getInstance().getDistance());
+        // SmartDashboard.putNumber("Hatch Ultra Raw",
+        // UltrasonicHatch.getInstance().read());
+        // SmartDashboard.putNumber("Hatch Ultra Distance",
+        // UltrasonicHatch.getInstance().getDistance());
 
-        SmartDashboard.putNumber("Cargo Ultra Raw", UltrasonicCargo.getInstance().read());
+        //SmartDashboard.putNumber("Cargo Ultra Raw", UltrasonicCargo.getInstance().read());
         SmartDashboard.putNumber("Cargo Ultra Distance", UltrasonicCargo.getInstance().getDistance());
     }
 

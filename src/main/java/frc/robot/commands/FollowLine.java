@@ -7,9 +7,9 @@ import frc.robot.subsystems.Photoresistor;
 
 public class FollowLine extends Command {
 	double turnSpeed = 0; // 0.2
-	double moveSpeed = 0.39; // 0.6
+	//double moveSpeed = 0.39; // 0.6
 	public static double maxDistance = 293.8;// distance from ultrasonic sensor to wall in meters
-	double turnNum = 0.53;// the magnitude of the turning value
+	double turnNum = 0.55;// the magnitude of the turning value
 	boolean[] active = { false, false, false };
 
 	public FollowLine() {
@@ -18,21 +18,22 @@ public class FollowLine extends Command {
 	}
 
 	@Override
-	protected boolean isFinished() {
-		return UltrasonicHatch.getInstance().getDistance() < maxDistance;
+	public boolean isFinished() {
+		//return UltrasonicHatch.getInstance().getDistance() < maxDistance;
+		return active[1] && !active[2] && !active[0]; 
 	}
 
 	@Override
 	protected void initialize() {
 		DriveSystem.getInstance().startAuto();
 	}
-
+	double speedNum = 0.5;
 	@Override
 	protected void execute() {
 		if (isFinished()) {
 			return;
 		}
-		double speedNum = 0.5;
+		
 
 		active = Photoresistor.getInstance().getVals();
 		// active[0] is the left most photoresistor and active[2] is the right most
@@ -45,7 +46,7 @@ public class FollowLine extends Command {
 		} else {
 			turnSpeed = 0.0;
 		}
-		if((UltrasonicHatch.getInstance().getDistance() < maxDistance && active[0]) || (active[2] && UltrasonicHatch.getInstance().getDistance() < maxDistance)){
+		/*if((UltrasonicHatch.getInstance().getDistance() < maxDistance && active[0]) || (active[2] && UltrasonicHatch.getInstance().getDistance() < maxDistance)){
 			moveSpeed=-speedNum;
 		}
 		if (active[1]) {
@@ -54,7 +55,7 @@ public class FollowLine extends Command {
 		} else {
 			moveSpeed = 0.32;
 			speedNum -= 0.004;
-		}
+		}*/
 		
 
 		if (!active[0] && !active[1] && !active[2]) {
@@ -63,10 +64,10 @@ public class FollowLine extends Command {
 		}
 		if (active[0] && active[1] && active[2]) {
 			turnSpeed = turnNum;
-			moveSpeed = 0;
+			//moveSpeed = 0;
 		}
 
-		DriveSystem.getInstance().arcadeDrive(moveSpeed, turnSpeed);
+		DriveSystem.getInstance().arcadeDrive(0.3, -turnSpeed);
 
 	}
 
