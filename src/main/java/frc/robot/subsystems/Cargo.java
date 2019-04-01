@@ -48,8 +48,8 @@ public class Cargo extends Subsystem {
     }
 
     public void inhaleCargo() {
-        bottom.set(0.5);
-        top.set(0.5);
+        bottom.set(1);
+        top.set(1);
     }
 
     public void ejectCargo() {

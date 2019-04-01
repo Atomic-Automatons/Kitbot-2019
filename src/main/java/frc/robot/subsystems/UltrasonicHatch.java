@@ -30,6 +30,10 @@ public class UltrasonicHatch extends Subsystem {
     public double read() {
         return ultra.getVoltage();
     }
+    public double getAverage(){
+        
+        return ultra.getAverage();
+    }
 
     @Override
     protected void initDefaultCommand() {

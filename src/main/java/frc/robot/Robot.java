@@ -41,7 +41,8 @@ public class Robot extends TimedRobot {
 
     System.out.println("NavX Connected: " + NavX.getInstance().isConnected());
     DriveSystem.getInstance().shiftDown();
-
+    //HatchControls.getInstance().closeCylinder();
+    HatchControls.getInstance().openCylinder();
     /*
      * m_chooser.setDefaultOption("Lever down and move straight", new AutoStart());
      * m_chooser.addOption("Turn 90", new Turn(90));

@@ -60,6 +60,10 @@ public class HatchControls extends Subsystem {
         cylinder.set(cylinder.get() == Value.kForward ? Value.kReverse : Value.kForward);
     }
 
+    public boolean isCylinderOpen() {
+        return cylinder.get() == Value.kForward;
+    }
+
     public void periodic() {
         if (upTimer.get() > maxTime) {
             up = false;

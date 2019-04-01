@@ -43,11 +43,11 @@ public class DriveSystem extends Subsystem {
 		backLeft.follow(frontLeft);
 		backLeft.setInverted(InvertType.FollowMaster);
 
-		double rampTime = 0.7;
+		double rampTime = 0.4; //  .7
 		frontRight.configOpenloopRamp(rampTime);
 		frontLeft.configOpenloopRamp(rampTime);
 
-		double deadband = 0.15;
+		double deadband = 0.04;
 		frontRight.configNeutralDeadband(deadband);
 		frontLeft.configNeutralDeadband(deadband);
 
@@ -78,6 +78,9 @@ public class DriveSystem extends Subsystem {
 	 * @param y = Direction
 	 */
 	public void arcadeDrive(double x, double y) {
+		if  (x <= 0.1 ) {
+			tankDrive(y, -y);
+		}
 		drive.arcadeDrive(-1 * modifier * x, y);
 	}
 
