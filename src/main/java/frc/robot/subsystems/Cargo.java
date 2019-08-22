@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
@@ -19,9 +20,9 @@ public class Cargo extends Subsystem {
         return instance;
     }
 
-    private WPI_VictorSPX top = new WPI_VictorSPX(RobotMap.cargoTop);
-    private WPI_VictorSPX bottom = new WPI_VictorSPX(RobotMap.cargoBottom);
-    private WPI_VictorSPX elevator = new WPI_VictorSPX(RobotMap.launcherElevator);
+    private Spark top = new Spark(RobotMap.cargoTop);
+    private Spark bottom = new Spark(RobotMap.cargoBottom);
+    private Spark elevator = new Spark(RobotMap.launcherElevator);
 
     private DigitalInput lowerSwitch = new DigitalInput(RobotMap.cargoSwitchBottom);
     private DigitalInput upperSwitch = new DigitalInput(RobotMap.cargoSwitchTop);
@@ -35,8 +36,9 @@ public class Cargo extends Subsystem {
         timer.reset();
         top.setInverted(true);
         bottom.setInverted(true);
-        elevator.setInverted(InvertType.InvertMotorOutput);
-        elevator.setNeutralMode(NeutralMode.Brake);
+        // elevator.setInverted(InvertType.InvertMotorOutput);
+        elevator.setInverted(true);
+        // elevator.setNeutralMode(NeutralMode.Brake);
         // top.setInverted(InvertType.InvertMotorOutput);
 
         top.setInverted(true);
@@ -48,8 +50,8 @@ public class Cargo extends Subsystem {
     }
 
     public void inhaleCargo() {
-        bottom.set(1);
-        top.set(1);
+        bottom.set(0.5);
+        top.set(0.5);
     }
 
     public void ejectCargo() {

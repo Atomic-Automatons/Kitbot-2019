@@ -4,10 +4,11 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.subsystems.DriveSystem;
 
 public class ShiftUp extends InstantCommand {
-	@Override
-	protected void initialize() {
-		DriveSystem.getInstance().shiftUp();
-		System.out.println("Shifting Up");
-	}
-
+    public ShiftUp(){
+        super();
+    }
+    @Override
+    protected void initialize(){
+        DriveSystem.getInstance().shiftDown();
+    }
 }

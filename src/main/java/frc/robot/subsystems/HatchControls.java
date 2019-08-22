@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
@@ -12,8 +13,8 @@ import frc.robot.RobotMap;
 public class HatchControls extends Subsystem {
     private static HatchControls instance;
 
-    public WPI_VictorSPX upMotor = new WPI_VictorSPX(RobotMap.upMotor);
-    public WPI_VictorSPX leverMotor = new WPI_VictorSPX(RobotMap.leverMotor);;
+    public Spark upMotor = new Spark(RobotMap.upMotor);
+    public Spark leverMotor = new Spark(RobotMap.leverMotor);
 
     private DigitalInput limitSwitchUp = new DigitalInput(RobotMap.hatchSwitchTop);
     private DigitalInput limitSwitchDown = new DigitalInput(RobotMap.hatchSwitchBottom);
@@ -58,10 +59,6 @@ public class HatchControls extends Subsystem {
 
     public void toggleCylinder() {
         cylinder.set(cylinder.get() == Value.kForward ? Value.kReverse : Value.kForward);
-    }
-
-    public boolean isCylinderOpen() {
-        return cylinder.get() == Value.kForward;
     }
 
     public void periodic() {
